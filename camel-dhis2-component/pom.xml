@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.hisp.dhis.integration.camel</groupId>
+        <artifactId>camel-dhis2-parent</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>camel-dhis2</artifactId>
+    <packaging>jar</packaging>
+    <name>Camel Dhis2 Component</name>
+    <description>Camel Component for Dhis2</description>
+
+    <properties>
+        <schemeName>dhis2</schemeName>
+        <componentName>Dhis2</componentName>
+        <componentPackage>org.hisp.dhis.integration.camel</componentPackage>
+        <outPackage>org.hisp.dhis.integration.camel.internal</outPackage>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.testcontainers</groupId>
+                <artifactId>testcontainers-bom</artifactId>
+                <version>1.16.3</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.apache.camel</groupId>
+            <artifactId>camel-support</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.hisp.dhis.integration.camel</groupId>
+            <artifactId>camel-dhis2-api</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+        </dependency>
+
+        <!-- Component API javadoc in provided scope to read API signatures -->
+        <!--    <dependency>-->
+        <!--      <groupId>org.hisp.dhis.integration.camel</groupId>-->
+        <!--      <artifactId>camel-dhis2-api</artifactId>-->
+        <!--      <version>1.0.0-SNAPSHOT</version>-->
+        <!--      <classifier>javadoc</classifier>-->
+        <!--      <scope>provided</scope>-->
+        <!--    </dependency>-->
+
+        <!-- logging -->
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-slf4j-impl</artifactId>
+            <version>2.17.1</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- testing -->
+        <dependency>
+            <groupId>org.apache.camel</groupId>
+            <artifactId>camel-jackson</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.camel</groupId>
+            <artifactId>camel-test-junit5</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>postgresql</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <defaultGoal>install</defaultGoal>
+
+        <plugins>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.1</version>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>3.2.0</version>
+                <configuration>
+                    <encoding>UTF-8</encoding>
+                </configuration>
+            </plugin>
+
+            <!-- generate Component source and test source -->
+            <plugin>
+                <groupId>org.apache.camel</groupId>
+                <artifactId>camel-api-component-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>generate-test-component-classes</id>
+                        <goals>
+                            <goal>fromApis</goal>
+                        </goals>
+                        <configuration>
+                            <apis>
+                                <api>
+                                    <apiName>post</apiName>
+                                    <proxyClass>org.hisp.dhis.integration.camel.api.Dhis2Post</proxyClass>
+                                    <fromJavasource/>
+                                    <nullableOptions>
+                                        <nullableOption>resource</nullableOption>
+                                        <nullableOption>queryParams</nullableOption>
+                                    </nullableOptions>
+                                </api>
+                                <api>
+                                    <apiName>resourceTables</apiName>
+                                    <proxyClass>org.hisp.dhis.integration.camel.api.Dhis2ResourceTables</proxyClass>
+                                    <fromJavasource/>
+                                    <nullableOptions>
+                                        <nullableOption>skipEvents</nullableOption>
+                                        <nullableOption>skipAggregate</nullableOption>
+                                        <nullableOption>lastYears</nullableOption>
+                                    </nullableOptions>
+                                </api>
+                                <api>
+                                    <apiName>get</apiName>
+                                    <proxyClass>org.hisp.dhis.integration.camel.api.Dhis2Get</proxyClass>
+                                    <fromJavasource/>
+                                    <nullableOptions>
+                                        <nullableOption>itemType</nullableOption>
+                                        <nullableOption>paging</nullableOption>
+                                        <nullableOption>fields</nullableOption>
+                                        <nullableOption>filter</nullableOption>
+                                        <nullableOption>queryParams</nullableOption>
+                                    </nullableOptions>
+                                </api>
+                            </apis>
+                        </configuration>
+                    </execution>
+                </executions>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.hisp.dhis.integration.camel</groupId>
+                        <artifactId>camel-dhis2-api</artifactId>
+                        <version>1.0.0-SNAPSHOT</version>
+                        <classifier>sources</classifier>
+                    </dependency>
+                </dependencies>
+            </plugin>
+
+            <!-- generate camel meta-data -->
+            <plugin>
+                <groupId>org.apache.camel</groupId>
+                <artifactId>camel-component-maven-plugin</artifactId>
+                <version>3.15.0</version>
+                <executions>
+                    <execution>
+                        <id>generate</id>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <phase>process-classes</phase>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- add generated source and test source to build -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <version>3.2.0</version>
+                <executions>
+                    <execution>
+                        <id>add-generated-sources</id>
+                        <goals>
+                            <goal>add-source</goal>
+                        </goals>
+                        <configuration>
+                            <sources>
+                                <source>${project.build.directory}/generated-sources/camel-component</source>
+                            </sources>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>add-generated-test-sources</id>
+                        <goals>
+                            <goal>add-test-source</goal>
+                        </goals>
+                        <configuration>
+                            <sources>
+                                <source>${project.build.directory}/generated-test-sources/camel-component</source>
+                            </sources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+        </plugins>
+
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.camel</groupId>
+                    <artifactId>camel-api-component-maven-plugin</artifactId>
+                    <version>${camelVersion}</version>
+                    <configuration>
+                        <scheme>${schemeName}</scheme>
+                        <componentName>${componentName}</componentName>
+                        <componentPackage>${componentPackage}</componentPackage>
+                        <outPackage>${outPackage}</outPackage>
+                        <nullableOptions>true</nullableOptions>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>3.0.0-M5</version>
+                    <configuration>
+                        <trimStackTrace>false</trimStackTrace>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+
+    </build>
+
+    <reporting>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.camel</groupId>
+                <artifactId>camel-api-component-maven-plugin</artifactId>
+                <version>${camelVersion}</version>
+                <configuration>
+                    <scheme>${schemeName}</scheme>
+                    <componentName>${componentName}</componentName>
+                    <componentPackage>${componentPackage}</componentPackage>
+                    <outPackage>${outPackage}</outPackage>
+                </configuration>
+            </plugin>
+        </plugins>
+    </reporting>
+
+</project>
