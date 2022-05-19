@@ -31,10 +31,11 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 import java.time.Duration;
 import java.util.Date;
+import java.util.Map;
 
-import org.hisp.dhis.api.v2_37_4.model.OrganisationUnit;
-import org.hisp.dhis.api.v2_37_4.model.OrganisationUnitLevel;
-import org.hisp.dhis.api.v2_37_4.model.WebMessage;
+import org.hisp.dhis.api.v2_37_6.model.OrganisationUnit;
+import org.hisp.dhis.api.v2_37_6.model.OrganisationUnitLevel;
+import org.hisp.dhis.api.v2_37_6.model.WebMessage;
 import org.hisp.dhis.integration.sdk.Dhis2Client;
 import org.hisp.dhis.integration.sdk.Dhis2ClientBuilder;
 import org.testcontainers.containers.BindMode;
@@ -117,8 +118,9 @@ public final class Environment
         OrganisationUnit organisationUnit = new OrganisationUnit().withName( "Acme" ).withShortName( "Acme" )
             .withOpeningDate( new Date() );
 
-        return DHIS2_CLIENT.post( "organisationUnits" ).withResource( organisationUnit ).transfer()
-            .returnAs( WebMessage.class ).getResponse().get().get( "uid" );
+        return (String) ((Map<String, Object>) DHIS2_CLIENT.post( "organisationUnits" ).withResource( organisationUnit )
+            .transfer()
+            .returnAs( WebMessage.class ).getResponse().get()).get( "uid" );
     }
 
     private static void createOrgUnitLevel()
