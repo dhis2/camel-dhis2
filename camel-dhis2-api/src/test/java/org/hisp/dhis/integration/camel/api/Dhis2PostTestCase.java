@@ -27,53 +27,72 @@
  */
 package org.hisp.dhis.integration.camel.api;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
+
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
 
 import org.hisp.dhis.integration.sdk.api.Dhis2Client;
+import org.hisp.dhis.integration.sdk.api.Dhis2Response;
 import org.hisp.dhis.integration.sdk.api.operation.PostOperation;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
-/**
- * Sample API used by Dhis2 Component whose method signatures are read from Java
- * source.
- */
-public class Dhis2Post
+@ExtendWith( MockitoExtension.class )
+public class Dhis2PostTestCase
 {
-    private final Dhis2Client dhis2Client;
+    @Mock
+    private Dhis2Client dhis2Client;
 
-    public Dhis2Post( Dhis2Client dhis2Client )
+    @Mock
+    private PostOperation postOperation;
+
+    @BeforeEach
+    public void beforeEach()
     {
-        this.dhis2Client = dhis2Client;
+        when( dhis2Client.post( any() ) ).thenReturn( postOperation );
+        when( postOperation.withParameter( any(), any() ) ).thenReturn( postOperation );
+        when( postOperation.transfer() ).thenReturn( new Dhis2Response()
+        {
+            @Override
+            public <T> T returnAs( Class<T> responseType )
+            {
+                return null;
+            }
+
+            @Override
+            public InputStream read()
+            {
+                return new ByteArrayInputStream( new byte[] {} );
+            }
+
+            @Override
+            public void close()
+                throws IOException
+            {
+
+            }
+        } );
     }
 
-    public InputStream resource( String path, Object resource, Map<String, Object> queryParams )
+    @Test
+    public void testResourceGivenMapOfListsQueryParams()
     {
-        PostOperation postOperation = dhis2Client.post( path );
-        if ( queryParams != null )
-        {
-            for ( Map.Entry<String, Object> queryParam : queryParams.entrySet() )
-            {
-                if ( queryParam.getValue() instanceof List )
-                {
-                    for ( String queryValue : (List<String>) queryParam.getValue() )
-                    {
-                        postOperation.withParameter( queryParam.getKey(), queryValue );
-                    }
-                }
-                else
-                {
-                    postOperation.withParameter( queryParam.getKey(), (String) queryParam.getValue() );
-                }
-            }
-        }
+        Dhis2Post dhis2Post = new Dhis2Post( dhis2Client );
+        dhis2Post.resource( null, null, Map.of( "foo", List.of( "bar" ) ) );
+    }
 
-        if ( resource != null )
-        {
-            postOperation.withResource( resource );
-        }
-
-        return postOperation.transfer().read();
-
+    @Test
+    public void testResourceGivenMapOfStringsQueryParams()
+    {
+        Dhis2Post dhis2Post = new Dhis2Post( dhis2Client );
+        dhis2Post.resource( null, null, Map.of( "foo", "bar" ) );
     }
 }

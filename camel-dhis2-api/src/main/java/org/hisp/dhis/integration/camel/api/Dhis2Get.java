@@ -32,7 +32,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.hisp.dhis.integration.sdk.Dhis2Client;
+import org.hisp.dhis.integration.sdk.api.Dhis2Client;
 import org.hisp.dhis.integration.sdk.api.IterableDhis2Response;
 import org.hisp.dhis.integration.sdk.api.operation.GetOperation;
 
@@ -49,7 +49,7 @@ public class Dhis2Get
         this.dhis2Client = dhis2Client;
     }
 
-    public InputStream resource( String path, String fields, String filter, Map<String, List<String>> queryParams )
+    public InputStream resource( String path, String fields, String filter, Map<String, Object> queryParams )
     {
         GetOperation getOperation = dhis2Client.get( path );
         if ( fields != null )
@@ -64,12 +64,20 @@ public class Dhis2Get
 
         if ( queryParams != null )
         {
-            for ( Map.Entry<String, List<String>> queryParam : queryParams.entrySet() )
+            for ( Map.Entry<String, Object> queryParam : queryParams.entrySet() )
             {
-                for ( String queryValue : queryParam.getValue() )
+                if ( queryParam.getValue() instanceof List )
                 {
-                    getOperation.withParameter( queryParam.getKey(), queryValue );
+                    for ( String queryValue : (List<String>) queryParam.getValue() )
+                    {
+                        getOperation.withParameter( queryParam.getKey(), queryValue );
+                    }
                 }
+                else
+                {
+                    getOperation.withParameter( queryParam.getKey(), (String) queryParam.getValue() );
+                }
+
             }
         }
 

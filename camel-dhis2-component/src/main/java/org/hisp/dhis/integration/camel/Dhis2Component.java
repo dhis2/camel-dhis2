@@ -33,8 +33,8 @@ import org.apache.camel.spi.Metadata;
 import org.apache.camel.support.component.AbstractApiComponent;
 import org.hisp.dhis.integration.camel.internal.Dhis2ApiCollection;
 import org.hisp.dhis.integration.camel.internal.Dhis2ApiName;
-import org.hisp.dhis.integration.sdk.Dhis2Client;
 import org.hisp.dhis.integration.sdk.Dhis2ClientBuilder;
+import org.hisp.dhis.integration.sdk.api.Dhis2Client;
 
 @org.apache.camel.spi.annotations.Component( "dhis2" )
 public class Dhis2Component extends AbstractApiComponent<Dhis2ApiName, Dhis2Configuration, Dhis2ApiCollection>

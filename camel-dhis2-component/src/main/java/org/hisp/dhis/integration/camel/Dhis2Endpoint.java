@@ -45,7 +45,7 @@ import org.hisp.dhis.integration.camel.internal.Dhis2ApiCollection;
 import org.hisp.dhis.integration.camel.internal.Dhis2ApiName;
 import org.hisp.dhis.integration.camel.internal.Dhis2Constants;
 import org.hisp.dhis.integration.camel.internal.Dhis2PropertiesHelper;
-import org.hisp.dhis.integration.sdk.Dhis2Client;
+import org.hisp.dhis.integration.sdk.api.Dhis2Client;
 
 /**
  * Dhis2 component which does bla bla.
