@@ -33,7 +33,7 @@ import org.apache.camel.spi.UriParam;
 import org.apache.camel.spi.UriParams;
 import org.apache.camel.spi.UriPath;
 import org.hisp.dhis.integration.camel.internal.Dhis2ApiName;
-import org.hisp.dhis.integration.sdk.Dhis2Client;
+import org.hisp.dhis.integration.sdk.api.Dhis2Client;
 
 @UriParams
 @Configurer

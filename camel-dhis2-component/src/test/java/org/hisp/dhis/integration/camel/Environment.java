@@ -27,8 +27,6 @@
  */
 package org.hisp.dhis.integration.camel;
 
-import java.io.IOException;
-import java.nio.charset.Charset;
 import java.time.Duration;
 import java.util.Date;
 import java.util.Map;
@@ -36,8 +34,8 @@ import java.util.Map;
 import org.hisp.dhis.api.v2_37_6.model.OrganisationUnit;
 import org.hisp.dhis.api.v2_37_6.model.OrganisationUnitLevel;
 import org.hisp.dhis.api.v2_37_6.model.WebMessage;
-import org.hisp.dhis.integration.sdk.Dhis2Client;
 import org.hisp.dhis.integration.sdk.Dhis2ClientBuilder;
+import org.hisp.dhis.integration.sdk.api.Dhis2Client;
 import org.testcontainers.containers.BindMode;
 import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.containers.Network;

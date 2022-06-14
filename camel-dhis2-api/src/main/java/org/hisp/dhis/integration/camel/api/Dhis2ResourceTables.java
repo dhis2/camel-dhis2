@@ -32,7 +32,7 @@ import java.util.Map;
 import org.hisp.dhis.api.v2_37_6.model.ImportOptions;
 import org.hisp.dhis.api.v2_37_6.model.Notification;
 import org.hisp.dhis.api.v2_37_6.model.WebMessage;
-import org.hisp.dhis.integration.sdk.Dhis2Client;
+import org.hisp.dhis.integration.sdk.api.Dhis2Client;
 import org.hisp.dhis.integration.sdk.api.operation.PutOperation;
 
 public class Dhis2ResourceTables
