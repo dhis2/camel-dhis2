@@ -47,7 +47,7 @@ public class ResourceTablesDhis2TestCase extends AbstractDhis2TestSupport
             public void configure()
             {
                 from( "direct://analytics" )
-                    .to( "dhis2://resourceTables/analytics?skipAggregate=false&skipEvents=false&lastYears=2" );
+                    .to( "dhis2://resourceTables/analytics?skipAggregate=false&skipEvents=false&lastYears=2&interval=10000" );
             }
         };
     }
