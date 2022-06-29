@@ -28,10 +28,8 @@
 package org.hisp.dhis.integration.camel.api;
 
 import java.util.Map;
+import java.util.Objects;
 
-import org.hisp.dhis.api.v2_37_6.model.ImportOptions;
-import org.hisp.dhis.api.v2_37_6.model.Notification;
-import org.hisp.dhis.api.v2_37_6.model.WebMessage;
 import org.hisp.dhis.integration.sdk.api.Dhis2Client;
 import org.hisp.dhis.integration.sdk.api.operation.PutOperation;
 
@@ -44,7 +42,7 @@ public class Dhis2ResourceTables
         this.dhis2Client = dhis2Client;
     }
 
-    public void analytics( Boolean skipAggregate, Boolean skipEvents, Integer lastYears )
+    public void analytics( Boolean skipAggregate, Boolean skipEvents, Integer lastYears, Integer interval )
     {
         PutOperation putOperation = dhis2Client.put( "resourceTables/analytics" );
         if ( skipEvents != null )
@@ -60,26 +58,26 @@ public class Dhis2ResourceTables
             putOperation.withParameter( "lastYears", String.valueOf( lastYears ) );
         }
 
-        String taskId = (String) ((Map<String, Object>) putOperation.transfer().returnAs( WebMessage.class )
-            .getResponse().get()).get( "id" );
+        Map<String, Object> webMessage = putOperation.transfer().returnAs( Map.class );
+        String taskId = (String) ((Map<String, Object>) webMessage.get( "response" )).get( "id" );
 
-        Notification notification = null;
-        while ( notification == null || !notification.getCompleted().get() )
+        Map<String, Object> notification = null;
+        while ( notification == null || !(Boolean) notification.get( "completed" ) )
         {
             try
             {
-                Thread.sleep( 30000 );
+                Thread.sleep( Objects.requireNonNullElse( interval, 30000 ) );
             }
             catch ( InterruptedException e )
             {
                 throw new RuntimeException( e );
             }
-            Iterable<Notification> notifications = dhis2Client.get( "system/tasks/ANALYTICS_TABLE/{taskId}",
-                taskId ).withoutPaging().transfer().returnAs( Notification.class );
+            Iterable<Map> notifications = dhis2Client.get( "system/tasks/ANALYTICS_TABLE/{taskId}",
+                taskId ).withoutPaging().transfer().returnAs( Map.class );
             if ( notifications.iterator().hasNext() )
             {
                 notification = notifications.iterator().next();
-                if ( notification.getLevel().get().equals( ImportOptions.NotificationLevel.ERROR ) )
+                if ( notification.get( "level" ).equals( "ERROR" ) )
                 {
                     throw new RuntimeException( "Analytics failed => " + notification );
                 }
