@@ -32,9 +32,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.util.Date;
 
 import org.apache.camel.builder.RouteBuilder;
-import org.hisp.dhis.api.v2_37_6.model.DescriptiveWebMessage;
-import org.hisp.dhis.api.v2_37_6.model.OrganisationUnit;
-import org.hisp.dhis.api.v2_37_6.model.WebMessage;
+import org.hisp.dhis.api.model.v2_37_6.DescriptiveWebMessage;
+import org.hisp.dhis.api.model.v2_37_6.OrganisationUnit;
+import org.hisp.dhis.api.model.v2_37_6.WebMessage;
 import org.junit.jupiter.api.Test;
 
 public class PostDhis2TestCase extends AbstractDhis2TestSupport
