@@ -36,7 +36,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.camel.builder.RouteBuilder;
-import org.hisp.dhis.api.model.v2_37_6.OrganisationUnit;
+import org.hisp.dhis.api.model.v2_38_1.OrganisationUnit;
 import org.junit.jupiter.api.Test;
 
 public class GetDhis2TestCase extends AbstractDhis2TestSupport
@@ -68,7 +68,7 @@ public class GetDhis2TestCase extends AbstractDhis2TestSupport
             {
                 from( "direct://collection" )
                     .to(
-                        "dhis2://get/collection?path=organisationUnits&paging=true&itemType=org.hisp.dhis.api.model.v2_37_6.OrganisationUnit" );
+                        "dhis2://get/collection?path=organisationUnits&paging=true&itemType=org.hisp.dhis.api.model.v2_38_1.OrganisationUnit" );
 
                 from( "direct://resource" )
                     .toD( "dhis2://get/resource?path=organisationUnits/${header.orgUnitId}" )
