@@ -31,9 +31,9 @@ import java.time.Duration;
 import java.util.Date;
 import java.util.Map;
 
-import org.hisp.dhis.api.model.v2_37_6.OrganisationUnit;
-import org.hisp.dhis.api.model.v2_37_6.OrganisationUnitLevel;
-import org.hisp.dhis.api.model.v2_37_6.WebMessage;
+import org.hisp.dhis.api.model.v2_38_1.OrganisationUnit;
+import org.hisp.dhis.api.model.v2_38_1.OrganisationUnitLevel;
+import org.hisp.dhis.api.model.v2_38_1.WebMessage;
 import org.hisp.dhis.integration.sdk.Dhis2ClientBuilder;
 import org.hisp.dhis.integration.sdk.api.Dhis2Client;
 import org.testcontainers.containers.BindMode;
