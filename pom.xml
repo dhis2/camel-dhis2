@@ -7,10 +7,30 @@
     <groupId>org.hisp.dhis.integration.camel</groupId>
     <artifactId>camel-dhis2-parent</artifactId>
     <packaging>pom</packaging>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.0.0</version>
 
     <name>Camel Dhis2 Component Parent</name>
     <description>Parent project for Camel {Dhis2} Component</description>
+
+    <licenses>
+        <license>
+            <name>BSD</name>
+            <url>http://opensource.org/licenses/BSD-2-Clause</url>
+        </license>
+    </licenses>
+
+    <scm>
+        <connection>scm:git:git@github.com:dhis2/camel-dhis2.git</connection>
+        <developerConnection>scm:git:git@github.com:dhis2/camel-dhis2.git</developerConnection>
+        <url>git@github.com:dhis2/camel-dhis2.git</url>
+    </scm>
+
+    <developers>
+        <developer>
+            <name>HISP Centre</name>
+            <email>developers@dhis2.org</email>
+        </developer>
+    </developers>
 
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
@@ -39,7 +59,65 @@
     </dependencyManagement>
 
     <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-javadoc-plugin</artifactId>
+                    <version>3.4.0</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
         <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-enforcer-plugin</artifactId>
+                <version>3.1.0</version>
+                <executions>
+                    <execution>
+                        <id>enforce</id>
+                        <configuration>
+                            <rules>
+                                <requireReleaseDeps>
+                                    <onlyWhenRelease>true</onlyWhenRelease>
+                                    <message>No Snapshots Allowed!</message>
+                                </requireReleaseDeps>
+                            </rules>
+                        </configuration>
+                        <goals>
+                            <goal>enforce</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <configuration>
+                    <failOnError>false</failOnError>
+                    <failOnWarnings>false</failOnWarnings>
+                    <quiet>true</quiet>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>3.2.1</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>jar-no-fork</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -121,7 +199,7 @@
         <dependency>
             <groupId>org.hisp.dhis.integration.sdk</groupId>
             <artifactId>dhis2-java-sdk</artifactId>
-            <version>1.0.0-SNAPSHOT</version>
+            <version>1.0.0-RC1</version>
         </dependency>
         <dependency>
             <groupId>org.apache.camel</groupId>

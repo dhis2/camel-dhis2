@@ -52,7 +52,7 @@ import org.hisp.dhis.integration.sdk.api.Dhis2Client;
  * <p>
  * TODO: Update one line description above what the component does.
  */
-@UriEndpoint( firstVersion = "1.0.0-SNAPSHOT", scheme = "dhis2", title = "DHIS2", syntax = "dhis2:methodName", apiSyntax = "apiName/methodName", category = {
+@UriEndpoint( firstVersion = "1.0.0", scheme = "dhis2", title = "DHIS2", syntax = "dhis2:methodName", apiSyntax = "apiName/methodName", category = {
     Category.API } )
 public class Dhis2Endpoint extends AbstractApiEndpoint<Dhis2ApiName, Dhis2Configuration>
 {
