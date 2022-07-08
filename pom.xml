@@ -11,6 +11,7 @@
 
     <name>Camel Dhis2 Component Parent</name>
     <description>Parent project for Camel {Dhis2} Component</description>
+    <url>https://github.com/dhis2/camel-dhis2</url>
 
     <licenses>
         <license>
