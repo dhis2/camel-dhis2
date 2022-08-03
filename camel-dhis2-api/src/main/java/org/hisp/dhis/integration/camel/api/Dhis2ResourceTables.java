@@ -31,7 +31,7 @@ import java.util.Map;
 import java.util.Objects;
 
 import org.hisp.dhis.integration.sdk.api.Dhis2Client;
-import org.hisp.dhis.integration.sdk.api.operation.PutOperation;
+import org.hisp.dhis.integration.sdk.api.operation.PostOperation;
 
 public class Dhis2ResourceTables
 {
@@ -44,21 +44,21 @@ public class Dhis2ResourceTables
 
     public void analytics( Boolean skipAggregate, Boolean skipEvents, Integer lastYears, Integer interval )
     {
-        PutOperation putOperation = dhis2Client.put( "resourceTables/analytics" );
+        PostOperation postOperation = dhis2Client.post( "resourceTables/analytics" );
         if ( skipEvents != null )
         {
-            putOperation.withParameter( "skipEvents", String.valueOf( skipEvents ) );
+            postOperation.withParameter( "skipEvents", String.valueOf( skipEvents ) );
         }
         if ( skipEvents != null )
         {
-            putOperation.withParameter( "skipAggregate", String.valueOf( skipAggregate ) );
+            postOperation.withParameter( "skipAggregate", String.valueOf( skipAggregate ) );
         }
         if ( lastYears != null )
         {
-            putOperation.withParameter( "lastYears", String.valueOf( lastYears ) );
+            postOperation.withParameter( "lastYears", String.valueOf( lastYears ) );
         }
 
-        Map<String, Object> webMessage = putOperation.transfer().returnAs( Map.class );
+        Map<String, Object> webMessage = postOperation.transfer().returnAs( Map.class );
         String taskId = (String) ((Map<String, Object>) webMessage.get( "response" )).get( "id" );
 
         Map<String, Object> notification = null;
