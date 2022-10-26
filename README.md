@@ -169,13 +169,14 @@ Signatures:
 
 The get/collection API method has the parameters listed in the table below:
 
-| Parameter | Description                                               | Type    |
-|-----------|-----------------------------------------------------------|---------|
-| path      | Resource URL path                                         | String  |
-| itemType  | Fully-qualified Java class name to deserialise items into | String  |
-| paging    | Turn paging on/off                                        | Boolean |
-| fields    | Comma-delimited list of fields to fetch                   | String  |
-| filter    | Search criteria                                           | String  |
+| Parameter   | Description                                               | Type    |
+|-------------|-----------------------------------------------------------|---------|
+| path        | Resource URL path                                         | String  |
+| itemType    | Fully-qualified Java class name to deserialise items into | String  |
+| paging      | Turn paging on/off                                        | Boolean |
+| fields      | Comma-delimited list of fields to fetch                   | String  |
+| filter      | Search criteria                                           | String  |
+| queryParams | Custom query parameters                                   | Map     |
 
 In addition to the parameters above, the get/collection API can also use any of the [Query Parameters](#query-parameters).
 
