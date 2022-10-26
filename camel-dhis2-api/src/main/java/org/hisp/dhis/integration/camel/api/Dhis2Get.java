@@ -37,8 +37,7 @@ import org.hisp.dhis.integration.sdk.api.IterableDhis2Response;
 import org.hisp.dhis.integration.sdk.api.operation.GetOperation;
 
 /**
- * Sample API used by Dhis2 Component whose method signatures are read from Java
- * source.
+ * Sample API used by Dhis2 Component whose method signatures are read from Java source.
  */
 public class Dhis2Get
 {
@@ -50,6 +49,13 @@ public class Dhis2Get
     }
 
     public InputStream resource( String path, String fields, String filter, Map<String, Object> queryParams )
+    {
+        GetOperation getOperation = newGetOperation( path, fields, filter, queryParams );
+
+        return getOperation.withParameter( "paging", "false" ).transfer().read();
+    }
+
+    protected GetOperation newGetOperation( String path, String fields, String filter, Map<String, Object> queryParams )
     {
         GetOperation getOperation = dhis2Client.get( path );
         if ( fields != null )
@@ -77,25 +83,16 @@ public class Dhis2Get
                 {
                     getOperation.withParameter( queryParam.getKey(), (String) queryParam.getValue() );
                 }
-
             }
         }
 
-        return getOperation.withParameter( "paging", "false" ).transfer().read();
+        return getOperation;
     }
 
-    public <T> Iterator<T> collection( String path, String itemType, Boolean paging, String fields, String filter )
+    public <T> Iterator<T> collection( String path, String itemType, Boolean paging, String fields, String filter,
+        Map<String, Object> queryParams )
     {
-        GetOperation getOperation = dhis2Client.get( path );
-        if ( fields != null )
-        {
-            getOperation.withFields( fields );
-        }
-
-        if ( filter != null )
-        {
-            getOperation.withFilter( filter );
-        }
+        GetOperation getOperation = newGetOperation( path, fields, filter, queryParams );
         Iterable<T> iterable;
 
         IterableDhis2Response iteratorDhis2Response;

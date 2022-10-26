@@ -28,17 +28,25 @@
 package org.hisp.dhis.integration.camel.api;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.hisp.dhis.api.model.Page;
 import org.hisp.dhis.integration.sdk.api.Dhis2Client;
 import org.hisp.dhis.integration.sdk.api.Dhis2Response;
 import org.hisp.dhis.integration.sdk.api.operation.GetOperation;
+import org.hisp.dhis.integration.sdk.api.operation.PagingCollectOperation;
+import org.hisp.dhis.integration.sdk.internal.LazyIterableDhis2Response;
+import org.hisp.dhis.integration.sdk.internal.converter.JacksonConverterFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -59,7 +67,12 @@ public class Dhis2GetTestCase
     {
         when( dhis2Client.get( any() ) ).thenReturn( getOperation );
         when( getOperation.withParameter( any(), any() ) ).thenReturn( getOperation );
-        when( getOperation.transfer() ).thenReturn( new Dhis2Response()
+    }
+
+    @Test
+    public void testResourceGivenMapOfListsQueryParams()
+    {
+        Dhis2Response dhis2Response = new Dhis2Response()
         {
             @Override
             public <T> T returnAs( Class<T> responseType )
@@ -75,24 +88,78 @@ public class Dhis2GetTestCase
 
             @Override
             public void close()
-                throws IOException
             {
 
             }
-        } );
-    }
-
-    @Test
-    public void testResourceGivenMapOfListsQueryParams()
-    {
+        };
+        when( getOperation.transfer() ).thenReturn( dhis2Response );
         Dhis2Get dhis2Get = new Dhis2Get( dhis2Client );
         dhis2Get.resource( null, null, null, Map.of( "foo", List.of( "bar" ) ) );
+        verify( getOperation, times( 1 ) ).withParameter( "foo", "bar" );
     }
 
     @Test
     public void testResourceGivenMapOfStringsQueryParams()
     {
+        Dhis2Response dhis2Response = new Dhis2Response()
+        {
+            @Override
+            public <T> T returnAs( Class<T> responseType )
+            {
+                return null;
+            }
+
+            @Override
+            public InputStream read()
+            {
+                return new ByteArrayInputStream( new byte[] {} );
+            }
+
+            @Override
+            public void close()
+            {
+
+            }
+        };
+        when( getOperation.transfer() ).thenReturn( dhis2Response );
         Dhis2Get dhis2Get = new Dhis2Get( dhis2Client );
         dhis2Get.resource( null, null, null, Map.of( "foo", "bar" ) );
+        verify( getOperation, times( 1 ) ).withParameter( "foo", "bar" );
+    }
+
+    @Test
+    public void testCollectionGivenMapOfStringsQueryParams()
+    {
+        Dhis2Response dhis2Response = new Dhis2Response()
+        {
+            @Override
+            public <T> T returnAs( Class<T> responseType )
+            {
+                Page page = new Page();
+                page.setAdditionalProperty( "bunnies", new ArrayList<>() );
+
+                return (T) page;
+            }
+
+            @Override
+            public InputStream read()
+            {
+                return new ByteArrayInputStream( new byte[] {} );
+            }
+
+            @Override
+            public void close()
+                throws
+                IOException
+            {
+
+            }
+        };
+        when( getOperation.withPaging() ).thenReturn(
+            () -> new LazyIterableDhis2Response( dhis2Response, new JacksonConverterFactory(), null ) );
+
+        Dhis2Get dhis2Get = new Dhis2Get( dhis2Client );
+        dhis2Get.collection( "bunnies", null, null, null, null, Map.of( "foo", "bar" ) );
+        verify( getOperation, times( 1 ) ).withParameter( "foo", "bar" );
     }
 }
