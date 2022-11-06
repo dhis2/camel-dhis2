@@ -7,7 +7,7 @@
     <parent>
         <groupId>org.hisp.dhis.integration.camel</groupId>
         <artifactId>camel-dhis2-parent</artifactId>
-        <version>1.0.1-SNAPSHOT</version>
+        <version>1.0.1</version>
     </parent>
 
     <artifactId>camel-dhis2</artifactId>
@@ -42,14 +42,14 @@
         <dependency>
             <groupId>org.hisp.dhis.integration.camel</groupId>
             <artifactId>camel-dhis2-api</artifactId>
-            <version>1.0.1-SNAPSHOT</version>
+            <version>1.0.1</version>
         </dependency>
 
         <!-- Component API javadoc in provided scope to read API signatures -->
         <dependency>
             <groupId>org.hisp.dhis.integration.camel</groupId>
             <artifactId>camel-dhis2-api</artifactId>
-            <version>1.0.1-SNAPSHOT</version>
+            <version>1.0.1</version>
             <classifier>javadoc</classifier>
             <scope>provided</scope>
         </dependency>
@@ -151,7 +151,7 @@
                     <dependency>
                         <groupId>org.hisp.dhis.integration.camel</groupId>
                         <artifactId>camel-dhis2-api</artifactId>
-                        <version>1.0.1-SNAPSHOT</version>
+                        <version>1.0.1</version>
                         <classifier>sources</classifier>
                     </dependency>
                 </dependencies>
