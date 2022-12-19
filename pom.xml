@@ -7,7 +7,7 @@
     <groupId>org.hisp.dhis.integration.camel</groupId>
     <artifactId>camel-dhis2-parent</artifactId>
     <packaging>pom</packaging>
-    <version>1.0.2-SNAPSHOT</version>
+    <version>1.0.2</version>
 
     <name>Camel Dhis2 Component Parent</name>
     <description>Parent project for Camel {Dhis2} Component</description>
@@ -200,7 +200,7 @@
         <dependency>
             <groupId>org.hisp.dhis.integration.sdk</groupId>
             <artifactId>dhis2-java-sdk</artifactId>
-            <version>1.0.0-RC3-SNAPSHOT</version>
+            <version>1.0.0-RC3</version>
         </dependency>
         <dependency>
             <groupId>org.apache.camel</groupId>
