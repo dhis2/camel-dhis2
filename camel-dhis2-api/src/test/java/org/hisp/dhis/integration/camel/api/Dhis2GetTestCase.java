@@ -47,6 +47,7 @@ import org.hisp.dhis.integration.sdk.api.operation.GetOperation;
 import org.hisp.dhis.integration.sdk.api.operation.PagingCollectOperation;
 import org.hisp.dhis.integration.sdk.internal.LazyIterableDhis2Response;
 import org.hisp.dhis.integration.sdk.internal.converter.JacksonConverterFactory;
+import org.hisp.dhis.integration.sdk.internal.operation.page.DefaultPagingCollectOperation;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -130,6 +131,9 @@ public class Dhis2GetTestCase
     @Test
     public void testCollectionGivenMapOfStringsQueryParams()
     {
+        DefaultPagingCollectOperation defaultPagingCollectOperation = new DefaultPagingCollectOperation(
+            "https://play.dhis2.org/2.39.0.1", "", null, new JacksonConverterFactory(), getOperation );
+
         Dhis2Response dhis2Response = new Dhis2Response()
         {
             @Override
@@ -155,8 +159,10 @@ public class Dhis2GetTestCase
 
             }
         };
+        when( getOperation.transfer() ).thenReturn( dhis2Response );
         when( getOperation.withPaging() ).thenReturn(
-            () -> new LazyIterableDhis2Response( dhis2Response, new JacksonConverterFactory(), null ) );
+            new DefaultPagingCollectOperation( "https://play.dhis2.org/2.39.0.1", "", null,
+                new JacksonConverterFactory(), getOperation ) );
 
         Dhis2Get dhis2Get = new Dhis2Get( dhis2Client );
         dhis2Get.collection( "bunnies", null, null, null, null, Map.of( "foo", "bar" ) );
