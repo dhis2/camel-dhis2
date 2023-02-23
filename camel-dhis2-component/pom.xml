@@ -7,19 +7,19 @@
     <parent>
         <groupId>org.hisp.dhis.integration.camel</groupId>
         <artifactId>camel-dhis2-parent</artifactId>
-        <version>1.0.3-SNAPSHOT</version>
+        <version>2.0.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>camel-dhis2</artifactId>
     <packaging>jar</packaging>
-    <name>Camel Dhis2 Component</name>
-    <description>Camel Component for Dhis2</description>
+    <name>Camel :: DHIS2</name>
+    <description>Camel DHIS2 Component</description>
 
     <properties>
         <schemeName>dhis2</schemeName>
         <componentName>Dhis2</componentName>
-        <componentPackage>org.hisp.dhis.integration.camel</componentPackage>
-        <outPackage>org.hisp.dhis.integration.camel.internal</outPackage>
+        <componentPackage>org.apache.camel.component.dhis2</componentPackage>
+        <outPackage>org.apache.camel.component.dhis2.internal</outPackage>
     </properties>
 
     <dependencyManagement>
@@ -42,16 +42,7 @@
         <dependency>
             <groupId>org.hisp.dhis.integration.camel</groupId>
             <artifactId>camel-dhis2-api</artifactId>
-            <version>1.0.3-SNAPSHOT</version>
-        </dependency>
-
-        <!-- Component API javadoc in provided scope to read API signatures -->
-        <dependency>
-            <groupId>org.hisp.dhis.integration.camel</groupId>
-            <artifactId>camel-dhis2-api</artifactId>
-            <version>1.0.3-SNAPSHOT</version>
-            <classifier>javadoc</classifier>
-            <scope>provided</scope>
+            <version>2.0.0-SNAPSHOT</version>
         </dependency>
 
         <!-- logging -->
@@ -79,14 +70,12 @@
         <defaultGoal>install</defaultGoal>
 
         <plugins>
-
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.10.1</version>
                 <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
+                    <release>11</release>
                 </configuration>
             </plugin>
 
@@ -113,7 +102,7 @@
                             <apis>
                                 <api>
                                     <apiName>post</apiName>
-                                    <proxyClass>org.hisp.dhis.integration.camel.api.Dhis2Post</proxyClass>
+                                    <proxyClass>org.apache.camel.component.dhis2.api.Dhis2Post</proxyClass>
                                     <fromJavasource/>
                                     <nullableOptions>
                                         <nullableOption>resource</nullableOption>
@@ -122,7 +111,7 @@
                                 </api>
                                 <api>
                                     <apiName>resourceTables</apiName>
-                                    <proxyClass>org.hisp.dhis.integration.camel.api.Dhis2ResourceTables</proxyClass>
+                                    <proxyClass>org.apache.camel.component.dhis2.api.Dhis2ResourceTables</proxyClass>
                                     <fromJavasource/>
                                     <nullableOptions>
                                         <nullableOption>skipEvents</nullableOption>
@@ -133,7 +122,7 @@
                                 </api>
                                 <api>
                                     <apiName>get</apiName>
-                                    <proxyClass>org.hisp.dhis.integration.camel.api.Dhis2Get</proxyClass>
+                                    <proxyClass>org.apache.camel.component.dhis2.api.Dhis2Get</proxyClass>
                                     <fromJavasource/>
                                     <nullableOptions>
                                         <nullableOption>itemType</nullableOption>
@@ -151,7 +140,7 @@
                     <dependency>
                         <groupId>org.hisp.dhis.integration.camel</groupId>
                         <artifactId>camel-dhis2-api</artifactId>
-                        <version>1.0.3-SNAPSHOT</version>
+                        <version>2.0.0-SNAPSHOT</version>
                         <classifier>sources</classifier>
                     </dependency>
                 </dependencies>
@@ -203,7 +192,6 @@
                     </execution>
                 </executions>
             </plugin>
-
         </plugins>
 
         <pluginManagement>
@@ -222,7 +210,6 @@
                 </plugin>
             </plugins>
         </pluginManagement>
-
     </build>
 
     <reporting>
