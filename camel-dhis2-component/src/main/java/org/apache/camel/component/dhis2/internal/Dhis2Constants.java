@@ -14,3 +14,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package org.apache.camel.component.dhis2.internal;
+
+/**
+ * Constants for Dhis2 component.
+ */
+public interface Dhis2Constants {
+
+    // suffix for parameters when passed as exchange header properties
+    String PROPERTY_PREFIX = "CamelDhis2.";
+
+    // thread profile name for this component
+    String THREAD_PROFILE_NAME = "CamelDhis2";
+}

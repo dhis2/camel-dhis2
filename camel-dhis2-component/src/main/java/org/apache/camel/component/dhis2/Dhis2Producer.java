@@ -14,3 +14,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package org.apache.camel.component.dhis2;
+
+import org.apache.camel.component.dhis2.internal.Dhis2ApiName;
+import org.apache.camel.component.dhis2.internal.Dhis2PropertiesHelper;
+import org.apache.camel.support.component.AbstractApiProducer;
+
+public class Dhis2Producer extends AbstractApiProducer<Dhis2ApiName, Dhis2Configuration> {
+
+    public Dhis2Producer(Dhis2Endpoint endpoint) {
+        super(endpoint, Dhis2PropertiesHelper.getHelper(endpoint.getCamelContext()));
+    }
+}

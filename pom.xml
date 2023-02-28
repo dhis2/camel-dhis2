@@ -7,16 +7,17 @@
     <groupId>org.hisp.dhis.integration.camel</groupId>
     <artifactId>camel-dhis2-parent</artifactId>
     <packaging>pom</packaging>
-    <version>1.0.3-SNAPSHOT</version>
+    <version>2.0.0-SNAPSHOT</version>
 
-    <name>Camel Dhis2 Component Parent</name>
-    <description>Parent project for Camel {Dhis2} Component</description>
+    <name>Camel :: DHIS2 :: Parent</name>
+    <description>Camel DHIS2 Component</description>
     <url>https://github.com/dhis2/camel-dhis2</url>
 
     <licenses>
         <license>
-            <name>BSD</name>
-            <url>http://opensource.org/licenses/BSD-2-Clause</url>
+            <name>Apache-2.0</name>
+            <url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
         </license>
     </licenses>
 
@@ -43,8 +44,8 @@
     </properties>
 
     <modules>
-        <module>camel-dhis2-component</module>
         <module>camel-dhis2-api</module>
+        <module>camel-dhis2-component</module>
     </modules>
 
     <dependencyManagement>
@@ -139,7 +140,7 @@
                 <configuration>
                     <java>
                         <eclipse>
-                            <file>DHISFormatter.xml</file>
+                            <file>CamelCodeFormatter.xml</file>
                             <version>4.9.0</version>
                         </eclipse>
                         <trimTrailingWhitespace/>
@@ -188,9 +189,32 @@
             </plugin>
             <plugin>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>3.0.0-M5</version>
+                <version>3.0.0-M9</version>
                 <configuration>
                     <trimStackTrace>false</trimStackTrace>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <version>3.0.0-M9</version>
+                <executions>
+                    <execution>
+                        <id>integration-test</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>integration-test</goal>
+                            <goal>verify</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <reuseForks>true</reuseForks>
+                    <forkedProcessTimeoutInSeconds>600</forkedProcessTimeoutInSeconds>
+                    <redirectTestOutputToFile>false</redirectTestOutputToFile>
+                    <systemPropertyVariables>
+                        <visibleassertions.silence>true</visibleassertions.silence>
+                    </systemPropertyVariables>
                 </configuration>
             </plugin>
         </plugins>
@@ -198,14 +222,14 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.hisp.dhis.integration.sdk</groupId>
-            <artifactId>dhis2-java-sdk</artifactId>
-            <version>1.0.0-RC4-SNAPSHOT</version>
-        </dependency>
-        <dependency>
             <groupId>org.apache.camel</groupId>
             <artifactId>camel-test-junit5</artifactId>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.hisp.dhis.integration.sdk</groupId>
+            <artifactId>dhis2-java-sdk</artifactId>
+            <version>1.0.0</version>
         </dependency>
     </dependencies>
 
