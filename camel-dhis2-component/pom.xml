@@ -129,6 +129,7 @@
                                         <nullableOption>paging</nullableOption>
                                         <nullableOption>fields</nullableOption>
                                         <nullableOption>filter</nullableOption>
+                                        <nullableOption>rootJunction</nullableOption>
                                         <nullableOption>queryParams</nullableOption>
                                     </nullableOptions>
                                 </api>
