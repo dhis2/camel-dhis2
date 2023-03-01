@@ -144,7 +144,7 @@ The method(s) is listed in the table below, followed by detailed syntax for each
 
 Signatures:
 
-* java.io.InputStream resource(java.lang.String path, java.lang.String fields, java.lang.String filter, java.util.Map<String, Object> queryParams)
+* java.io.InputStream resource(java.lang.String path, java.lang.String fields, java.lang.String filter, org.apache.camel.component.dhis2.api.RootJunctionEnum rootJunction, java.util.Map<String, Object> queryParams)
 
 The get/resource API method has the parameters listed in the table below:
 
@@ -210,7 +210,7 @@ public class MyRouteBuilder extends RouteBuilder {
 
 Signatures:
 
-* java.util.Iterator collection(java.lang.String path, java.lang.String itemType, java.lang.Boolean paging, java.lang.String fields, java.lang.String filter, java.util.Map<String, Object> queryParams)
+* java.util.Iterator collection(java.lang.String path, java.lang.String itemType, java.lang.Boolean paging, java.lang.String fields, java.lang.String filter, org.apache.camel.component.dhis2.api.RootJunctionEnum rootJunction, java.util.Map<String, Object> queryParams)
 
 The get/collection API method has the parameters listed in the table below:
 
