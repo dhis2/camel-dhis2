@@ -154,6 +154,7 @@ The get/resource API method has the parameters listed in the table below:
 | path | Resource URL path | String
 | fields | Comma-delimited list of fields to fetch | String
 | filter | Search criteria | String
+| rootJunction | Logic junction used between filters | RootJunctionEnum
 | queryParams | Custom query parameters | Map
 |===
 
@@ -221,6 +222,7 @@ The get/collection API method has the parameters listed in the table below:
 | paging | Turn paging on/off | Boolean
 | fields | Comma-delimited list of fields to fetch | String
 | filter | Search criteria | String
+| rootJunction | Logic junction used between filters | RootJunctionEnum
 | queryParams |Custom query parameters | Map
 |===
 
