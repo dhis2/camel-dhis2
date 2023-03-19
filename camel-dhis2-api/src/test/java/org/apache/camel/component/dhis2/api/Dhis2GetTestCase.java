@@ -161,7 +161,7 @@ public class Dhis2GetTestCase {
                 Page page = new Page();
                 page.setAdditionalProperty("bunnies", new ArrayList<>());
 
-                return (T)page;
+                return (T) page;
             }
 
             @Override
@@ -171,16 +171,16 @@ public class Dhis2GetTestCase {
 
             @Override
             public void close()
-                throws IOException {
+                    throws IOException {
 
             }
         };
         when(getOperation.withParameter(any(), any())).thenReturn(getOperation);
         when(getOperation.transfer()).thenReturn(dhis2Response);
         when(getOperation.withPaging()).thenReturn(
-            new DefaultPagingCollectOperation(
-                "https://play.dhis2.org/2.39.0.1", "", null,
-                new JacksonConverterFactory(), getOperation));
+                new DefaultPagingCollectOperation(
+                        "https://play.dhis2.org/2.39.0.1", "", null,
+                        new JacksonConverterFactory(), getOperation));
 
         Dhis2Get dhis2Get = new Dhis2Get(dhis2Client);
         dhis2Get.collection("bunnies", null, null, null, null, null, Map.of("foo", "bar"));
