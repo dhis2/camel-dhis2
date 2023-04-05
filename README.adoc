@@ -94,7 +94,7 @@ with the following path and query parameters:
 |===
 | Naming | Description | Default | Type
 | baseApiUrl (common) | DHIS2 server base API URL | | String
-| inBody (common) | Sets the name of a parameter to be passed in the exchange In Body | | String
+| inBody (common) | Sets the name of a parameter to be passed in the exchange In Body | resource | String
 | client (advanced) | To use the custom client | | org.hisp.dhis.integration.sdk.api.Dhis2Client
 | password (security) | Password to use for basic authentication | | String
 | username (security) | Username to use for basic authentication | | String
@@ -348,7 +348,7 @@ public class MyRouteBuilder extends RouteBuilder {
                                                                    .withDataSet("lyLU2wR22tC").withPeriod(PeriodBuilder.monthOf(new Date(), -1))
                                                                    .withDataValues(
                                                                        List.of(new DataValue__1().withDataElement("aIJZ2d2QgVV").withValue("20")))))
-            .to("dhis2://post/resource?path=dataValueSets&inBody=resource&username=admin&password=district&baseApiUrl=https://play.dhis2.org/2.39.1/api")
+            .to("dhis2://post/resource?path=dataValueSets&username=admin&password=district&baseApiUrl=https://play.dhis2.org/2.39.1/api")
             .unmarshal().json(ImportReportWebMessageResponse.class)
             .choice()
             .when(exchange -> !exchange.getMessage().getBody(ImportReportWebMessageResponse.class).getStatus().get().equals(DescriptiveWebMessage.Status.OK))
