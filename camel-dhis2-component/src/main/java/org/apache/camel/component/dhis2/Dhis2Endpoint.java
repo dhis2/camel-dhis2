@@ -22,8 +22,10 @@ import org.apache.camel.Category;
 import org.apache.camel.Consumer;
 import org.apache.camel.Processor;
 import org.apache.camel.Producer;
+import org.apache.camel.component.dhis2.api.Dhis2Delete;
 import org.apache.camel.component.dhis2.api.Dhis2Get;
 import org.apache.camel.component.dhis2.api.Dhis2Post;
+import org.apache.camel.component.dhis2.api.Dhis2Put;
 import org.apache.camel.component.dhis2.api.Dhis2ResourceTables;
 import org.apache.camel.component.dhis2.internal.Dhis2ApiCollection;
 import org.apache.camel.component.dhis2.internal.Dhis2ApiName;
@@ -92,6 +94,12 @@ public class Dhis2Endpoint extends AbstractApiEndpoint<Dhis2ApiName, Dhis2Config
                 break;
             case POST:
                 apiProxy = new Dhis2Post(dhis2Client);
+                break;
+            case DELETE:
+                apiProxy = new Dhis2Delete(dhis2Client);
+                break;
+            case PUT:
+                apiProxy = new Dhis2Put(dhis2Client);
                 break;
             case RESOURCE_TABLES:
                 apiProxy = new Dhis2ResourceTables(dhis2Client);

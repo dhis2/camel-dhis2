@@ -24,7 +24,7 @@
     <parent>
         <groupId>org.hisp.dhis.integration.camel</groupId>
         <artifactId>camel-dhis2-parent</artifactId>
-        <version>2.0.2-SNAPSHOT</version>
+        <version>2.1.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>camel-dhis2</artifactId>
@@ -59,7 +59,7 @@
         <dependency>
             <groupId>org.hisp.dhis.integration.camel</groupId>
             <artifactId>camel-dhis2-api</artifactId>
-            <version>2.0.2-SNAPSHOT</version>
+            <version>2.1.0-SNAPSHOT</version>
         </dependency>
 
         <!-- logging -->
@@ -82,10 +82,9 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>org.hisp.dhis.integration.sdk</groupId>
-            <artifactId>jackson-resource-model</artifactId>
-            <version>2.0.0-SNAPSHOT</version>
-            <classifier>v2.38.1</classifier>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.12.0</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -157,6 +156,24 @@
                                         <nullableOption>queryParams</nullableOption>
                                     </nullableOptions>
                                 </api>
+                                <api>
+                                    <apiName>delete</apiName>
+                                    <proxyClass>org.apache.camel.component.dhis2.api.Dhis2Delete</proxyClass>
+                                    <fromJavasource />
+                                    <nullableOptions>
+                                        <nullableOption>resource</nullableOption>
+                                        <nullableOption>queryParams</nullableOption>
+                                    </nullableOptions>
+                                </api>
+                                <api>
+                                    <apiName>put</apiName>
+                                    <proxyClass>org.apache.camel.component.dhis2.api.Dhis2Put</proxyClass>
+                                    <fromJavasource />
+                                    <nullableOptions>
+                                        <nullableOption>resource</nullableOption>
+                                        <nullableOption>queryParams</nullableOption>
+                                    </nullableOptions>
+                                </api>
                             </apis>
                         </configuration>
                     </execution>
@@ -165,7 +182,7 @@
                     <dependency>
                         <groupId>org.hisp.dhis.integration.camel</groupId>
                         <artifactId>camel-dhis2-api</artifactId>
-                        <version>2.0.2-SNAPSHOT</version>
+                        <version>2.1.0-SNAPSHOT</version>
                         <classifier>sources</classifier>
                     </dependency>
                 </dependencies>
