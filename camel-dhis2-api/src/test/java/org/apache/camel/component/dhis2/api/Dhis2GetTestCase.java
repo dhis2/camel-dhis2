@@ -183,7 +183,7 @@ public class Dhis2GetTestCase {
                         new JacksonConverterFactory(), getOperation));
 
         Dhis2Get dhis2Get = new Dhis2Get(dhis2Client);
-        dhis2Get.collection("bunnies", null, null, null, null, null, Map.of("foo", "bar"));
+        dhis2Get.collection("bunnies", null, "bunnies", null, null, null, null, Map.of("foo", "bar"));
         verify(getOperation, times(1)).withParameter("foo", "bar");
     }
 
@@ -215,7 +215,7 @@ public class Dhis2GetTestCase {
                 new JacksonConverterFactory(), getOperation));
 
         Dhis2Get dhis2Get = new Dhis2Get(dhis2Client);
-        dhis2Get.collection("bunnies", null, null, null, null, RootJunctionEnum.OR, null);
+        dhis2Get.collection("bunnies", null, "bunnies", null, null, null, RootJunctionEnum.OR, null);
         verify(getOperation, times(1)).withOrRootJunction();
     }
 
@@ -247,7 +247,7 @@ public class Dhis2GetTestCase {
                 new JacksonConverterFactory(), getOperation));
 
         Dhis2Get dhis2Get = new Dhis2Get(dhis2Client);
-        dhis2Get.collection("bunnies", null, null, null, null, RootJunctionEnum.AND, null);
+        dhis2Get.collection("bunnies", null, "bunnies", null, null, null, RootJunctionEnum.AND, null);
         verify(getOperation, times(1)).withAndRootJunction();
     }
 }

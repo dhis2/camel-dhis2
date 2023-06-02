@@ -217,7 +217,8 @@ The get/collection API method has the parameters listed in the table below:
 |===
 | Parameter | Description | Type
 | path | Resource URL path | String
-| itemType | Fully-qualified Java class name to deserialise items into| String
+| itemType | Fully-qualified Java class name to deserialise items into | String
+| arrayName | JSON property name holding the array to read | String
 | paging | Turn paging on/off | Boolean
 | fields | Comma-delimited list of fields to fetch | String
 | filter | Search criteria | String
@@ -243,7 +244,7 @@ public class MyRouteBuilder extends RouteBuilder {
 
     public void configure() {
         from("direct:getCollection")
-            .to("dhis2://get/collection?path=organisationUnits&itemType=org.hisp.dhis.api.model.v2_39_1.OrganisationUnit&username=admin&password=district&baseApiUrl=https://play.dhis2.org/2.39.1/api")
+            .to("dhis2://get/collection?path=organisationUnits&itemType=org.hisp.dhis.api.model.v2_39_1.OrganisationUnit&arrayName=organisationUnits&username=admin&password=district&baseApiUrl=https://play.dhis2.org/2.39.1/api")
             .split().body().log("${body}");
     }
 }
@@ -261,7 +262,7 @@ public class MyRouteBuilder extends RouteBuilder {
 
     public void configure() {
         from("direct:getCollection")
-            .to("dhis2://get/collection?path=organisationUnits&fields=code&itemType=org.hisp.dhis.api.model.v2_39_1.OrganisationUnit&username=admin&password=district&baseApiUrl=https://play.dhis2.org/2.39.1/api")
+            .to("dhis2://get/collection?path=organisationUnits&fields=code&itemType=org.hisp.dhis.api.model.v2_39_1.OrganisationUnit&arrayName=organisationUnits&username=admin&password=district&baseApiUrl=https://play.dhis2.org/2.39.1/api")
             .split().body().log("${body}");
     }
 }
@@ -279,7 +280,7 @@ public class MyRouteBuilder extends RouteBuilder {
 
     public void configure() {
         from("direct:getCollection")
-            .to("dhis2://get/collection?path=users&filter=phoneNumber:!null:&itemType=org.hisp.dhis.api.model.v2_39_1.User&username=admin&password=district&baseApiUrl=https://play.dhis2.org/2.39.1/api")
+            .to("dhis2://get/collection?path=users&filter=phoneNumber:!null:&itemType=org.hisp.dhis.api.model.v2_39_1.User&arrayName=users&username=admin&password=district&baseApiUrl=https://play.dhis2.org/2.39.1/api")
             .split().body().log("${body}");
     }
 }
