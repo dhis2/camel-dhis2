@@ -25,6 +25,7 @@ import java.util.Map;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.component.dhis2.internal.Dhis2ApiCollection;
 import org.apache.camel.component.dhis2.internal.Dhis2ResourceTablesApiMethod;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -50,7 +51,7 @@ public class Dhis2ResourceTablesIT extends AbstractDhis2TestSupport {
         // parameter type is Integer
         headers.put("CamelDhis2.interval", 10000);
 
-        requestBodyAndHeaders("direct://ANALYTICS", null, headers);
+        Assertions.assertDoesNotThrow(() -> requestBodyAndHeaders("direct://ANALYTICS", null, headers));
     }
 
     @Override

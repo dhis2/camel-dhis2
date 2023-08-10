@@ -35,11 +35,11 @@ public class Dhis2Put {
         if (queryParams != null) {
             for (Map.Entry<String, Object> queryParam : queryParams.entrySet()) {
                 if (queryParam.getValue() instanceof List) {
-                    for (String queryValue : (List<String>)queryParam.getValue()) {
+                    for (String queryValue : (List<String>) queryParam.getValue()) {
                         putOperation.withParameter(queryParam.getKey(), queryValue);
                     }
                 } else {
-                    putOperation.withParameter(queryParam.getKey(), (String)queryParam.getValue());
+                    putOperation.withParameter(queryParam.getKey(), (String) queryParam.getValue());
                 }
             }
         }
