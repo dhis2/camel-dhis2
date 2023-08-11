@@ -47,9 +47,10 @@ public class Dhis2DeleteIT extends AbstractDhis2TestSupport {
 
     @Test
     public void testResource() {
-        String orgUnitId = (String)((Map<String, Object>)Environment.DHIS2_CLIENT.post("organisationUnits")
-            .withResource(new OrganisationUnit().withName("Acme").withShortName("Acme").withOpeningDate(new Date())).transfer()
-            .returnAs(WebMessage.class).getResponse().get()).get("uid");
+        String orgUnitId = (String) ((Map<String, Object>) Environment.DHIS2_CLIENT.post("organisationUnits")
+                .withResource(new OrganisationUnit().withName("Acme").withShortName("Acme").withOpeningDate(new Date()))
+                .transfer()
+                .returnAs(WebMessage.class).getResponse().get()).get("uid");
 
         final Map<String, Object> headers = new HashMap<>();
         // parameter type is String
@@ -64,7 +65,7 @@ public class Dhis2DeleteIT extends AbstractDhis2TestSupport {
         assertEquals(404, remoteDhis2ClientException.getHttpStatusCode());
 
         assertNotNull(result, "resource result");
-        LOG.debug("resource: " + result);
+        LOG.debug("Result: {}", result);
     }
 
     @Override
@@ -72,7 +73,7 @@ public class Dhis2DeleteIT extends AbstractDhis2TestSupport {
         return new RouteBuilder() {
             public void configure() {
                 from("direct://RESOURCE")
-                    .to("dhis2://" + PATH_PREFIX + "/resource");
+                        .to("dhis2://" + PATH_PREFIX + "/resource");
             }
         };
     }

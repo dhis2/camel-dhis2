@@ -39,7 +39,7 @@ public class Dhis2Delete {
                         deleteOperation.withParameter(queryParam.getKey(), queryValue);
                     }
                 } else {
-                    deleteOperation.withParameter(queryParam.getKey(), (String)queryParam.getValue());
+                    deleteOperation.withParameter(queryParam.getKey(), (String) queryParam.getValue());
                 }
             }
         }

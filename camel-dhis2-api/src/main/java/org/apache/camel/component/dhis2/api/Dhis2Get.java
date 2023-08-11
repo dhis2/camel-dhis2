@@ -17,10 +17,10 @@
 package org.apache.camel.component.dhis2.api;
 
 import java.io.InputStream;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.camel.support.InputStreamIterator;
 import org.hisp.dhis.integration.sdk.api.Dhis2Client;
 import org.hisp.dhis.integration.sdk.api.IterableDhis2Response;
 import org.hisp.dhis.integration.sdk.api.operation.GetOperation;
@@ -32,15 +32,17 @@ public class Dhis2Get {
         this.dhis2Client = dhis2Client;
     }
 
-    public InputStream resource(String path, String fields, String filter, RootJunctionEnum rootJunction,
-                                Map<String, Object> queryParams) {
+    public InputStream resource(
+            String path, String fields, String filter, RootJunctionEnum rootJunction,
+            Map<String, Object> queryParams) {
         GetOperation getOperation = newGetOperation(path, fields, filter, rootJunction, queryParams);
 
         return getOperation.withParameter("paging", "false").transfer().read();
     }
 
-    protected GetOperation newGetOperation(String path, String fields, String filter, RootJunctionEnum rootJunction,
-                                           Map<String, Object> queryParams) {
+    protected GetOperation newGetOperation(
+            String path, String fields, String filter, RootJunctionEnum rootJunction,
+            Map<String, Object> queryParams) {
         GetOperation getOperation = dhis2Client.get(path);
         if (fields != null) {
             getOperation.withFields(fields);
@@ -61,11 +63,11 @@ public class Dhis2Get {
         if (queryParams != null) {
             for (Map.Entry<String, Object> queryParam : queryParams.entrySet()) {
                 if (queryParam.getValue() instanceof List) {
-                    for (String queryValue : (List<String>)queryParam.getValue()) {
+                    for (String queryValue : (List<String>) queryParam.getValue()) {
                         getOperation.withParameter(queryParam.getKey(), queryValue);
                     }
                 } else {
-                    getOperation.withParameter(queryParam.getKey(), (String)queryParam.getValue());
+                    getOperation.withParameter(queryParam.getKey(), (String) queryParam.getValue());
                 }
             }
         }
@@ -73,11 +75,11 @@ public class Dhis2Get {
         return getOperation;
     }
 
-    public <T> Iterator<T> collection(
-        String path, String itemType, String arrayName, Boolean paging, String fields, String filter, RootJunctionEnum rootJunction,
-        Map<String, Object> queryParams) {
+    public InputStream collection(
+            String path, String arrayName, Boolean paging, String fields, String filter,
+            RootJunctionEnum rootJunction,
+            Map<String, Object> queryParams) {
         GetOperation getOperation = newGetOperation(path, fields, filter, rootJunction, queryParams);
-        Iterable<T> iterable;
 
         IterableDhis2Response iteratorDhis2Response;
         if (paging == null || paging) {
@@ -86,17 +88,8 @@ public class Dhis2Get {
             iteratorDhis2Response = getOperation.withoutPaging().transfer();
         }
 
-        if (itemType == null) {
-            iterable = (Iterable<T>)iteratorDhis2Response.returnAs(Map.class, arrayName);
-        } else {
-            try {
-                iterable = (Iterable<T>)iteratorDhis2Response.returnAs(Class.forName(itemType), arrayName);
-            } catch (ClassNotFoundException e) {
-                throw new RuntimeException(e);
-            }
-        }
-
-        return iterable.iterator();
+        Iterable<Map> iterable = iteratorDhis2Response.returnAs(Map.class, arrayName);
+        return new InputStreamIterator(new ItemTypeConverter(dhis2Client), iterable.iterator());
     }
 
 }
