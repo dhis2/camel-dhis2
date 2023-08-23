@@ -28,6 +28,7 @@ import org.hisp.dhis.integration.sdk.api.Dhis2Client;
 import org.hisp.dhis.integration.sdk.api.Dhis2Response;
 import org.hisp.dhis.integration.sdk.api.operation.GetOperation;
 import org.hisp.dhis.integration.sdk.internal.converter.JacksonConverterFactory;
+import org.hisp.dhis.integration.sdk.internal.operation.DefaultSimpleCollectOperation;
 import org.hisp.dhis.integration.sdk.internal.operation.page.DefaultPagingCollectOperation;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -154,7 +155,7 @@ public class Dhis2GetTestCase {
     }
 
     @Test
-    public void testCollectionGivenMapOfStringsQueryParams() {
+    public void testCollectionGivenPagingIsTrue() {
         Dhis2Response dhis2Response = new Dhis2Response() {
             @Override
             public <T> T returnAs(Class<T> responseType) {
@@ -171,14 +172,46 @@ public class Dhis2GetTestCase {
 
             @Override
             public void close()
+                throws IOException {
+
+            }
+        };
+        when(getOperation.withParameter(any(), any())).thenReturn(getOperation);
+        when(getOperation.withParameter(any(), any())).thenReturn(getOperation);
+        when(getOperation.transfer()).thenReturn(dhis2Response);
+        when(getOperation.withPaging()).thenReturn(
+            new DefaultPagingCollectOperation(
+                "https://play.dhis2.org/2.39.0.1", "", null, new JacksonConverterFactory(), getOperation));
+
+        Dhis2Get dhis2Get = new Dhis2Get(dhis2Client);
+        dhis2Get.collection("bunnies", "bunnies", true, null, null, null, Map.of("foo", "bar"));
+        verify(getOperation, times(1)).withParameter("foo", "bar");
+    }
+
+    @Test
+    public void testCollectionGivenMapOfStringsQueryParams() {
+        Dhis2Response dhis2Response = new Dhis2Response() {
+            @Override
+            public <T> T returnAs(Class<T> responseType) {
+                return (T) Map.of("bunnies", new ArrayList<>());
+            }
+
+            @Override
+            public InputStream read() {
+                return new ByteArrayInputStream(new byte[] {});
+            }
+
+            @Override
+            public void close()
                     throws IOException {
 
             }
         };
         when(getOperation.withParameter(any(), any())).thenReturn(getOperation);
+        when(getOperation.withParameter(any(), any())).thenReturn(getOperation);
         when(getOperation.transfer()).thenReturn(dhis2Response);
-        when(getOperation.withPaging()).thenReturn(
-                new DefaultPagingCollectOperation(
+        when(getOperation.withoutPaging()).thenReturn(
+                new DefaultSimpleCollectOperation(
                         "https://play.dhis2.org/2.39.0.1", "", null, new JacksonConverterFactory(), getOperation));
 
         Dhis2Get dhis2Get = new Dhis2Get(dhis2Client);
@@ -191,10 +224,7 @@ public class Dhis2GetTestCase {
         Dhis2Response dhis2Response = new Dhis2Response() {
             @Override
             public <T> T returnAs(Class<T> responseType) {
-                Page page = new Page();
-                page.setAdditionalProperty("bunnies", new ArrayList<>());
-
-                return (T) page;
+                return (T) Map.of("bunnies", new ArrayList<>());
             }
 
             @Override
@@ -207,9 +237,10 @@ public class Dhis2GetTestCase {
 
             }
         };
+        when(getOperation.withParameter(any(), any())).thenReturn(getOperation);
         when(getOperation.transfer()).thenReturn(dhis2Response);
-        when(getOperation.withPaging()).thenReturn(
-                new DefaultPagingCollectOperation(
+        when(getOperation.withoutPaging()).thenReturn(
+                new DefaultSimpleCollectOperation(
                         "https://play.dhis2.org/2.39.0.1", "", null,
                         new JacksonConverterFactory(), getOperation));
 
@@ -223,10 +254,7 @@ public class Dhis2GetTestCase {
         Dhis2Response dhis2Response = new Dhis2Response() {
             @Override
             public <T> T returnAs(Class<T> responseType) {
-                Page page = new Page();
-                page.setAdditionalProperty("bunnies", new ArrayList<>());
-
-                return (T) page;
+                return (T) Map.of("bunnies", new ArrayList<>());
             }
 
             @Override
@@ -239,8 +267,9 @@ public class Dhis2GetTestCase {
 
             }
         };
+        when(getOperation.withParameter(any(), any())).thenReturn(getOperation);
         when(getOperation.transfer()).thenReturn(dhis2Response);
-        when(getOperation.withPaging()).thenReturn(new DefaultPagingCollectOperation(
+        when(getOperation.withoutPaging()).thenReturn(new DefaultSimpleCollectOperation(
                 "https://play.dhis2.org/2.39.0.1", "", null, new JacksonConverterFactory(), getOperation));
 
         Dhis2Get dhis2Get = new Dhis2Get(dhis2Client);
