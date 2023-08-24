@@ -36,7 +36,7 @@ public final class Environment {
 
     public static final Dhis2Client DHIS2_CLIENT;
 
-    public static final String ORG_UNIT_ID;
+    public static final String ORG_UNIT_ID_UNDER_TEST;
 
     private static final Network NETWORK = Network.newNetwork();
 
@@ -51,21 +51,21 @@ public final class Environment {
     static {
         POSTGRESQL_CONTAINER = new PostgreSQLContainer<>(
                 DockerImageName.parse("postgis/postgis:12-3.2-alpine").asCompatibleSubstituteFor("postgres"))
-                        .withDatabaseName("dhis2")
-                        .withNetworkAliases("db")
-                        .withUsername("dhis")
-                        .withPassword("dhis").withNetwork(NETWORK);
+                .withDatabaseName("dhis2")
+                .withNetworkAliases("db")
+                .withUsername("dhis")
+                .withPassword("dhis").withNetwork(NETWORK);
 
         POSTGRESQL_CONTAINER.start();
 
         DHIS2_CONTAINER = new GenericContainer<>(
                 "dhis2/core:2.37.4-tomcat-8.5.34-jre8-alpine")
-                        .dependsOn(POSTGRESQL_CONTAINER)
-                        .withClasspathResourceMapping("dhis.conf", "/DHIS2_home/dhis.conf", BindMode.READ_ONLY)
-                        .withNetwork(NETWORK).withExposedPorts(8080)
-                        .waitingFor(
-                                new HttpWaitStrategy().forStatusCode(200).withStartupTimeout(Duration.ofSeconds(120)))
-                        .withEnv("WAIT_FOR_DB_CONTAINER", "db" + ":" + 5432 + " -t 0");
+                .dependsOn(POSTGRESQL_CONTAINER)
+                .withClasspathResourceMapping("dhis.conf", "/DHIS2_home/dhis.conf", BindMode.READ_ONLY)
+                .withNetwork(NETWORK).withExposedPorts(8080)
+                .waitingFor(
+                        new HttpWaitStrategy().forStatusCode(200).withStartupTimeout(Duration.ofSeconds(120)))
+                .withEnv("WAIT_FOR_DB_CONTAINER", "db" + ":" + 5432 + " -t 0");
 
         DHIS2_CONTAINER.start();
 
@@ -74,13 +74,14 @@ public final class Environment {
                         .getFirstMappedPort() + "/api",
                 "admin", "district").build();
 
-        ORG_UNIT_ID = createOrgUnit();
+        createOrgUnit("EvilCorp");
+        ORG_UNIT_ID_UNDER_TEST = createOrgUnit("Acme");
         createOrgUnitLevel();
-        addOrgUnitToUser(ORG_UNIT_ID);
+        addOrgUnitToUser(ORG_UNIT_ID_UNDER_TEST);
     }
 
-    private static String createOrgUnit() {
-        OrganisationUnit organisationUnit = new OrganisationUnit().withName("Acme").withShortName("Acme")
+    private static String createOrgUnit(String name) {
+        OrganisationUnit organisationUnit = new OrganisationUnit().withName(name).withShortName(name)
                 .withOpeningDate(new Date());
 
         return (String) ((Map<String, Object>) DHIS2_CLIENT.post("organisationUnits").withResource(organisationUnit)
