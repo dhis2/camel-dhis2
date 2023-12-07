@@ -23,10 +23,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import okhttp3.MediaType;
+import okhttp3.Protocol;
+import okhttp3.Request;
+import okhttp3.Response;
+import okhttp3.ResponseBody;
 import org.hisp.dhis.api.model.Page;
 import org.hisp.dhis.integration.sdk.api.Dhis2Client;
 import org.hisp.dhis.integration.sdk.api.Dhis2Response;
+import org.hisp.dhis.integration.sdk.api.converter.ConverterFactory;
 import org.hisp.dhis.integration.sdk.api.operation.GetOperation;
+import org.hisp.dhis.integration.sdk.internal.DefaultDhis2Response;
 import org.hisp.dhis.integration.sdk.internal.converter.JacksonConverterFactory;
 import org.hisp.dhis.integration.sdk.internal.operation.DefaultSimpleCollectOperation;
 import org.hisp.dhis.integration.sdk.internal.operation.page.DefaultPagingCollectOperation;
@@ -37,6 +44,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -156,10 +164,21 @@ public class Dhis2GetTestCase {
 
     @Test
     public void testCollectionGivenPagingIsTrue() {
-        Dhis2Response dhis2Response = new Dhis2Response() {
+
+        Request request = new Request.Builder().url("http://localhost").build();
+        Response response = new Response.Builder()
+            .request(request)
+            .protocol(Protocol.HTTP_1_1)
+            .code(200)
+            .message("OK")
+            .body(ResponseBody.create("", MediaType.get("application/json")))
+            .build();
+
+        ConverterFactory converterFactory = mock(ConverterFactory.class);
+        DefaultDhis2Response defaultDhis2Response = new DefaultDhis2Response(response, converterFactory) {
             @Override
             public <T> T returnAs(Class<T> responseType) {
-                Page page = new Page();
+                Page page = new Page(1,50);
                 page.setAdditionalProperty("bunnies", new ArrayList<>());
 
                 return (T) page;
@@ -172,13 +191,12 @@ public class Dhis2GetTestCase {
 
             @Override
             public void close()
-                throws IOException {
-
+                 {
             }
         };
         when(getOperation.withParameter(any(), any())).thenReturn(getOperation);
         when(getOperation.withParameter(any(), any())).thenReturn(getOperation);
-        when(getOperation.transfer()).thenReturn(dhis2Response);
+        when(getOperation.transfer()).thenReturn(defaultDhis2Response);
         when(getOperation.withPaging()).thenReturn(
             new DefaultPagingCollectOperation(
                 "https://play.dhis2.org/2.39.0.1", "", null, new JacksonConverterFactory(), getOperation));
