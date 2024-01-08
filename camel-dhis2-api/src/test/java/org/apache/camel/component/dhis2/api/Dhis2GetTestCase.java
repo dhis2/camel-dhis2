@@ -79,6 +79,12 @@ public class Dhis2GetTestCase {
             public void close() {
 
             }
+
+            @Override
+            public String getUrl()
+            {
+                return "";
+            }
         };
         when(getOperation.withParameter(any(), any())).thenReturn(getOperation);
         when(getOperation.transfer()).thenReturn(dhis2Response);
@@ -103,6 +109,12 @@ public class Dhis2GetTestCase {
             @Override
             public void close() {
 
+            }
+
+            @Override
+            public String getUrl()
+            {
+                return "";
             }
         };
         when(getOperation.withParameter(any(), any())).thenReturn(getOperation);
@@ -129,6 +141,12 @@ public class Dhis2GetTestCase {
             public void close() {
 
             }
+
+            @Override
+            public String getUrl()
+            {
+                return "";
+            }
         };
         when(getOperation.withParameter(any(), any())).thenReturn(getOperation);
         when(getOperation.transfer()).thenReturn(dhis2Response);
@@ -154,6 +172,12 @@ public class Dhis2GetTestCase {
             public void close() {
 
             }
+
+            @Override
+            public String getUrl()
+            {
+                return "";
+            }
         };
         when(getOperation.withParameter(any(), any())).thenReturn(getOperation);
         when(getOperation.transfer()).thenReturn(dhis2Response);
@@ -164,21 +188,10 @@ public class Dhis2GetTestCase {
 
     @Test
     public void testCollectionGivenPagingIsTrue() {
-
-        Request request = new Request.Builder().url("http://localhost").build();
-        Response response = new Response.Builder()
-            .request(request)
-            .protocol(Protocol.HTTP_1_1)
-            .code(200)
-            .message("OK")
-            .body(ResponseBody.create("", MediaType.get("application/json")))
-            .build();
-
-        ConverterFactory converterFactory = mock(ConverterFactory.class);
-        DefaultDhis2Response defaultDhis2Response = new DefaultDhis2Response(response, converterFactory) {
+        Dhis2Response dhis2Response = new Dhis2Response() {
             @Override
             public <T> T returnAs(Class<T> responseType) {
-                Page page = new Page(1,50);
+                Page page = new Page(1, 50);
                 page.setAdditionalProperty("bunnies", new ArrayList<>());
 
                 return (T) page;
@@ -191,12 +204,19 @@ public class Dhis2GetTestCase {
 
             @Override
             public void close()
-                 {
+                throws IOException {
+
+            }
+
+            @Override
+            public String getUrl()
+            {
+                return "";
             }
         };
         when(getOperation.withParameter(any(), any())).thenReturn(getOperation);
         when(getOperation.withParameter(any(), any())).thenReturn(getOperation);
-        when(getOperation.transfer()).thenReturn(defaultDhis2Response);
+        when(getOperation.transfer()).thenReturn(dhis2Response);
         when(getOperation.withPaging()).thenReturn(
             new DefaultPagingCollectOperation(
                 "https://play.dhis2.org/2.39.0.1", "", null, new JacksonConverterFactory(), getOperation));
@@ -223,6 +243,12 @@ public class Dhis2GetTestCase {
             public void close()
                     throws IOException {
 
+            }
+
+            @Override
+            public String getUrl()
+            {
+                return "";
             }
         };
         when(getOperation.withParameter(any(), any())).thenReturn(getOperation);
@@ -254,6 +280,12 @@ public class Dhis2GetTestCase {
             public void close() {
 
             }
+
+            @Override
+            public String getUrl()
+            {
+                return "";
+            }
         };
         when(getOperation.withParameter(any(), any())).thenReturn(getOperation);
         when(getOperation.transfer()).thenReturn(dhis2Response);
@@ -283,6 +315,12 @@ public class Dhis2GetTestCase {
             @Override
             public void close() {
 
+            }
+
+            @Override
+            public String getUrl()
+            {
+                return "";
             }
         };
         when(getOperation.withParameter(any(), any())).thenReturn(getOperation);

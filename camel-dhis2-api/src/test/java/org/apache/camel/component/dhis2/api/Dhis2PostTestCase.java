@@ -61,6 +61,12 @@ public class Dhis2PostTestCase {
             public void close() {
 
             }
+
+            @Override
+            public String getUrl()
+            {
+                return "";
+            }
         });
     }
 
