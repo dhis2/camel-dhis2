@@ -62,8 +62,7 @@ public class Dhis2DeleteTestCase {
             }
 
             @Override
-            public String getUrl()
-            {
+            public String getUrl() {
                 return "";
             }
         });

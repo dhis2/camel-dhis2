@@ -62,8 +62,7 @@ public class Dhis2PutTestCase {
             }
 
             @Override
-            public String getUrl()
-            {
+            public String getUrl() {
                 return "";
             }
         });
