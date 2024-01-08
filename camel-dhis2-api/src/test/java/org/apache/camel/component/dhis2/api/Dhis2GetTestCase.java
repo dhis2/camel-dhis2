@@ -23,17 +23,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import okhttp3.MediaType;
-import okhttp3.Protocol;
-import okhttp3.Request;
-import okhttp3.Response;
-import okhttp3.ResponseBody;
 import org.hisp.dhis.api.model.Page;
 import org.hisp.dhis.integration.sdk.api.Dhis2Client;
 import org.hisp.dhis.integration.sdk.api.Dhis2Response;
-import org.hisp.dhis.integration.sdk.api.converter.ConverterFactory;
 import org.hisp.dhis.integration.sdk.api.operation.GetOperation;
-import org.hisp.dhis.integration.sdk.internal.DefaultDhis2Response;
 import org.hisp.dhis.integration.sdk.internal.converter.JacksonConverterFactory;
 import org.hisp.dhis.integration.sdk.internal.operation.DefaultSimpleCollectOperation;
 import org.hisp.dhis.integration.sdk.internal.operation.page.DefaultPagingCollectOperation;
@@ -44,7 +37,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
