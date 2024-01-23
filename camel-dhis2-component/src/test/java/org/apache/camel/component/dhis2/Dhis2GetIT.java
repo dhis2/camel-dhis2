@@ -44,7 +44,7 @@ public class Dhis2GetIT extends AbstractDhis2TestSupport {
     private static final String PATH_PREFIX = Dhis2ApiCollection.getCollection().getApiName(Dhis2GetApiMethod.class).getName();
 
     @Test
-    public void testCollection() throws Exception {
+    public void testCollection() {
         final Map<String, Object> headers = new HashMap<String, Object>();
         headers.put("CamelDhis2.path", "organisationUnits");
         headers.put("CamelDhis2.arrayName", "organisationUnits");
@@ -87,7 +87,6 @@ public class Dhis2GetIT extends AbstractDhis2TestSupport {
                 // test route for resource
                 from("direct://RESOURCE")
                         .to("dhis2://" + PATH_PREFIX + "/resource");
-
             }
         };
     }
