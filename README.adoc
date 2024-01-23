@@ -64,8 +64,9 @@ The DHIS2 component supports the options listed below.
 |===
 | Naming | Description | Default | Type
 | baseApiUrl (common) | DHIS2 server base API URL | | String
-| username (common) | Username for use for basic authentication | | String
-| password (common) | Password for use for basic authentication | | String
+| username (common) | Username of the DHIS2 user to operate as | | String
+| password (common) | Password of the DHIS2 username | | String
+| pat (common) | Personal access token to authenticate with DHIS2. This option is mutually exclusive to username and password | | String
 | client (advanced) | Dhis2Client is an expensive object to create. To avoid creating multiple instances, it can be set directly. | | org.hisp.dhis.integration.sdk.api.Dhis2Client
 |===
 

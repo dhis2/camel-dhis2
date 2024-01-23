@@ -18,6 +18,7 @@ package org.apache.camel.component.dhis2;
 
 import org.apache.camel.CamelContext;
 import org.apache.camel.Endpoint;
+import org.apache.camel.RuntimeCamelException;
 import org.apache.camel.component.dhis2.internal.Dhis2ApiCollection;
 import org.apache.camel.component.dhis2.internal.Dhis2ApiName;
 import org.apache.camel.spi.Metadata;
@@ -77,10 +78,19 @@ public class Dhis2Component extends AbstractApiComponent<Dhis2ApiName, Dhis2Conf
             if (endpointConfiguration.getClient() != null) {
                 return endpointConfiguration.getClient();
             } else {
-                return Dhis2ClientBuilder.newClient(endpointConfiguration.getBaseApiUrl(),
-                        endpointConfiguration.getUsername(), endpointConfiguration.getPassword()).build();
+                if (endpointConfiguration.getPat() != null && (endpointConfiguration.getUsername() != null || endpointConfiguration.getPassword() != null)) {
+                    throw new RuntimeCamelException(
+                            "Bad DHIS2 authentication configuration: PAT authentication and basic authentication are mutually exclusive. Either set `pat` or both `username` and `password`");
+                }
+
+                if (endpointConfiguration.getPat() != null) {
+                    return Dhis2ClientBuilder.newClient(endpointConfiguration.getBaseApiUrl(),
+                            endpointConfiguration.getPat()).build();
+                } else {
+                    return Dhis2ClientBuilder.newClient(endpointConfiguration.getBaseApiUrl(),
+                            endpointConfiguration.getUsername(), endpointConfiguration.getPassword()).build();
+                }
             }
         }
     }
-
 }

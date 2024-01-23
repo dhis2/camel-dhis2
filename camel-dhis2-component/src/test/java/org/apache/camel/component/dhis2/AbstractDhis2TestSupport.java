@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
+import java.util.concurrent.ThreadLocalRandom;
 
 import org.apache.camel.CamelContext;
 import org.apache.camel.CamelExecutionException;
@@ -51,14 +52,16 @@ public class AbstractDhis2TestSupport extends CamelTestSupport {
                     e);
         }
 
-        properties.setProperty("baseApiUrl",
+        Map<String, Object> options = new HashMap<>();
+        if (ThreadLocalRandom.current().nextBoolean()) {
+            options.put("username", properties.get("username"));
+            options.put("password", properties.get("password"));
+        } else {
+            options.put("pat", Environment.PAT);
+        }
+        options.put("baseApiUrl",
                 "http://" + Environment.getDhis2Container().getHost() + ":" + Environment.getDhis2Container()
                         .getFirstMappedPort() + "/api");
-
-        Map<String, Object> options = new HashMap<>();
-        for (Map.Entry<Object, Object> entry : properties.entrySet()) {
-            options.put(entry.getKey().toString(), entry.getValue());
-        }
 
         final Dhis2Configuration configuration = new Dhis2Configuration();
         IntrospectionSupport.setProperties(configuration, options);
