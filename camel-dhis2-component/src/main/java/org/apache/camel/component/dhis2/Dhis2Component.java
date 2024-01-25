@@ -76,6 +76,11 @@ public class Dhis2Component extends AbstractApiComponent<Dhis2ApiName, Dhis2Conf
             return this.dhis2Client;
         } else {
             if (endpointConfiguration.getClient() != null) {
+                if (endpointConfiguration.getBaseApiUrl() != null || endpointConfiguration.getPat() != null || endpointConfiguration.getUsername() != null || endpointConfiguration.getPassword() != null) {
+                    throw new RuntimeCamelException(
+                            "Bad DHIS2 endpoint configuration: client option is mutually exclusive to baseApiUrl, username, password, and pat. Either set `client`, or `baseApiUrl` and `username` and `password`, or `baseApiUrl` and `pat`");
+                }
+
                 return endpointConfiguration.getClient();
             } else {
                 if (endpointConfiguration.getPat() != null && (endpointConfiguration.getUsername() != null || endpointConfiguration.getPassword() != null)) {
