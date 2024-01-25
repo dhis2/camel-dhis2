@@ -47,7 +47,7 @@ public class Dhis2Configuration {
     @Metadata(required = true)
     private String methodName;
 
-    @UriParam(label = "advanced", description = "References a user-defined org.hisp.dhis.integration.sdk.api.Dhis2Client")
+    @UriParam(label = "advanced", description = "References a user-defined org.hisp.dhis.integration.sdk.api.Dhis2Client. This option is mutually exclusive to the baseApiUrl, username, password, and pat options")
     private Dhis2Client client;
 
     public String getBaseApiUrl() {
