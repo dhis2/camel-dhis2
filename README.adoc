@@ -302,10 +302,11 @@ The resourceTables/analytics API method has the parameters listed in the table b
 [width="100%",cols="19%,70%,11%",options="header",]
 |===
 | Parameter | Description | Type
-| skipAggregate | Skip generation of aggregate data and completeness data| Boolean
+| skipAggregate | Skip generation of aggregate data and completeness data | Boolean
 | skipEvents | Skip generation of event data | Boolean
 | lastYears | Number of last years of data to include | Integer
-| interval | Duration in milliseconds between completeness checks | Integer
+| interval | Duration in milliseconds between completeness checks. Default is `30000`. | Integer
+| async | Whether to block until analytics is complete. Default is `false`. | Integer
 |===
 
 In addition to the parameters above, the resourceTables/analytics API can also use any of the link:#query-parameters[Query Parameters].
