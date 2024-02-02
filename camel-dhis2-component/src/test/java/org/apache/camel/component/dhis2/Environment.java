@@ -17,18 +17,14 @@
 package org.apache.camel.component.dhis2;
 
 import java.time.Duration;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.ZoneOffset;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import org.hisp.dhis.api.model.v40_0.ApiToken;
-import org.hisp.dhis.api.model.v40_0.OrganisationUnit;
-import org.hisp.dhis.api.model.v40_0.OrganisationUnitLevel;
-import org.hisp.dhis.api.model.v40_0.WebMessage;
+import org.hisp.dhis.api.model.v40_2_2.ApiToken;
+import org.hisp.dhis.api.model.v40_2_2.OrganisationUnit;
+import org.hisp.dhis.api.model.v40_2_2.OrganisationUnitLevel;
+import org.hisp.dhis.api.model.v40_2_2.WebMessage;
 import org.hisp.dhis.integration.sdk.Dhis2ClientBuilder;
 import org.hisp.dhis.integration.sdk.api.Dhis2Client;
 import org.testcontainers.containers.BindMode;
@@ -102,7 +98,7 @@ public final class Environment {
                             "allowedMethods",
                             List.of("GET", "POST", "PUT", "PATCH", "DELETE")))).withExpire(Long.MAX_VALUE))
         .transfer()
-        .returnAs(WebMessage.class)
+        .returnAs( WebMessage.class)
         .getResponse()
         .get().get("key");
   }
