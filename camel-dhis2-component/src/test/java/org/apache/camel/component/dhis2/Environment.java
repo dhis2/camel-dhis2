@@ -98,7 +98,7 @@ public final class Environment {
                             "allowedMethods",
                             List.of("GET", "POST", "PUT", "PATCH", "DELETE")))).withExpire(Long.MAX_VALUE))
         .transfer()
-        .returnAs( WebMessage.class)
+        .returnAs(WebMessage.class)
         .getResponse()
         .get().get("key");
   }
