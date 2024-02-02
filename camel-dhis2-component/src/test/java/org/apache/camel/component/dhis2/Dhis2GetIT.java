@@ -27,7 +27,7 @@ import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.component.dhis2.internal.Dhis2ApiCollection;
 import org.apache.camel.component.dhis2.internal.Dhis2GetApiMethod;
 import org.apache.camel.processor.aggregate.GroupedBodyAggregationStrategy;
-import org.hisp.dhis.api.model.v40_0.OrganisationUnit;
+import org.hisp.dhis.api.model.v40_2_2.OrganisationUnit;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
