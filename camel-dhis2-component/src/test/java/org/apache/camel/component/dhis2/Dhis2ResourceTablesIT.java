@@ -40,7 +40,7 @@ public class Dhis2ResourceTablesIT extends AbstractDhis2TestSupport {
             = Dhis2ApiCollection.getCollection().getApiName(Dhis2ResourceTablesApiMethod.class).getName();
 
     @Test
-    public void testAnalytics() throws Exception {
+    public void testAnalytics() {
         final Map<String, Object> headers = new HashMap<String, Object>();
         // parameter type is Boolean
         headers.put("CamelDhis2.skipAggregate", false);

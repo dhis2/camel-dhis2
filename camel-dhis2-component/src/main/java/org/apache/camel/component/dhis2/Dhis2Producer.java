@@ -16,13 +16,13 @@
  */
 package org.apache.camel.component.dhis2;
 
+import java.util.Map;
+
 import org.apache.camel.Exchange;
 import org.apache.camel.component.dhis2.internal.Dhis2ApiName;
 import org.apache.camel.component.dhis2.internal.Dhis2PropertiesHelper;
 import org.apache.camel.support.component.AbstractApiProducer;
 import org.apache.camel.support.component.ApiMethod;
-
-import java.util.Map;
 
 public class Dhis2Producer extends AbstractApiProducer<Dhis2ApiName, Dhis2Configuration> {
 

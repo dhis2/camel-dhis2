@@ -19,5 +19,4 @@ package org.apache.camel.component.dhis2.api;
 import java.util.HashMap;
 
 public class Dhis2Resource extends HashMap<String, Object> {
-
 }

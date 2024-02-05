@@ -19,6 +19,10 @@
  */
 package org.apache.camel.component.dhis2;
 
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.component.dhis2.internal.Dhis2ApiCollection;
 import org.apache.camel.component.dhis2.internal.Dhis2PutApiMethod;
@@ -27,10 +31,6 @@ import org.hisp.dhis.api.model.v40_2_2.OrganisationUnit;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -61,12 +61,15 @@ public class Dhis2PutIT extends AbstractDhis2TestSupport {
         headers.put("CamelDhis2.queryParams", new HashMap<>());
 
         String name = RandomStringUtils.randomAlphabetic(8);
-        final java.io.InputStream result = requestBodyAndHeaders(endpointUri, new OrganisationUnit().withName(name).withShortName(name).withOpeningDate(new Date()), headers);
-        OrganisationUnit organisationUnit = Environment.DHIS2_CLIENT.get("organisationUnits/{id}", Environment.ORG_UNIT_ID_UNDER_TEST).transfer().returnAs(OrganisationUnit.class);
+        final java.io.InputStream result = requestBodyAndHeaders(endpointUri,
+                new OrganisationUnit().withName(name).withShortName(name).withOpeningDate(new Date()), headers);
+        OrganisationUnit organisationUnit
+                = Environment.DHIS2_CLIENT.get("organisationUnits/{id}", Environment.ORG_UNIT_ID_UNDER_TEST)
+                        .transfer().returnAs(OrganisationUnit.class);
         assertEquals(name, organisationUnit.getName().get());
 
         assertNotNull(result, "resource result");
-        LOG.debug("resource: " + result);
+        LOG.debug("Result: {}", result);
     }
 
     @Override

@@ -38,7 +38,7 @@ public final class Environment {
 
     public static final Dhis2Client DHIS2_CLIENT;
 
-    public static final String PAT;
+    public static final String PERSONAL_ACCESS_TOKEN;
 
     public static final String ORG_UNIT_ID_UNDER_TEST;
 
@@ -65,10 +65,10 @@ public final class Environment {
         DHIS2_CONTAINER = new GenericContainer<>(
                 "dhis2/core:2.40.2.1")
                 .dependsOn(POSTGRESQL_CONTAINER)
-                .withClasspathResourceMapping( "dhis.conf", "/opt/dhis2/dhis.conf", BindMode.READ_WRITE )
+                .withClasspathResourceMapping("dhis.conf", "/opt/dhis2/dhis.conf", BindMode.READ_WRITE)
                 .withNetwork(NETWORK).withExposedPorts(8080)
                 .waitingFor(
-                        new HttpWaitStrategy().forStatusCode(200).withStartupTimeout(Duration.ofSeconds(120)))
+                        new HttpWaitStrategy().forStatusCode(200).withStartupTimeout(Duration.ofSeconds(360)))
                 .withEnv("WAIT_FOR_DB_CONTAINER", "db" + ":" + 5432 + " -t 0");
 
         DHIS2_CONTAINER.start();
@@ -82,26 +82,27 @@ public final class Environment {
         ORG_UNIT_ID_UNDER_TEST = createOrgUnit("Acme");
         createOrgUnitLevel();
         addOrgUnitToUser(ORG_UNIT_ID_UNDER_TEST);
-        PAT = createPat();
+        PERSONAL_ACCESS_TOKEN = createPersonalAccessToken();
     }
 
-  private static String createPat() {
-    return DHIS2_CLIENT
-        .post("apiToken")
-        .withResource(
-            new ApiToken()
-                .withAttributes(
-                    List.of(
-                        Map.of(
-                            "type",
-                            "MethodAllowedList",
-                            "allowedMethods",
-                            List.of("GET", "POST", "PUT", "PATCH", "DELETE")))).withExpire(Long.MAX_VALUE))
-        .transfer()
-        .returnAs(WebMessage.class)
-        .getResponse()
-        .get().get("key");
-  }
+    private static String createPersonalAccessToken() {
+        return DHIS2_CLIENT
+                .post("apiToken")
+                .withResource(
+                        new ApiToken()
+                                .withAttributes(
+                                        List.of(
+                                                Map.of(
+                                                        "type",
+                                                        "MethodAllowedList",
+                                                        "allowedMethods",
+                                                        List.of("GET", "POST", "PUT", "PATCH", "DELETE"))))
+                                .withExpire(Long.MAX_VALUE))
+                .transfer()
+                .returnAs(WebMessage.class)
+                .getResponse()
+                .get().get("key");
+    }
 
     private static String createOrgUnit(String name) {
         OrganisationUnit organisationUnit = new OrganisationUnit().withName(name).withShortName(name)

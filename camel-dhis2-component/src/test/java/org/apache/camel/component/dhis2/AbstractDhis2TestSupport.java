@@ -57,7 +57,7 @@ public class AbstractDhis2TestSupport extends CamelTestSupport {
             options.put("username", properties.get("username"));
             options.put("password", properties.get("password"));
         } else {
-            options.put("pat", Environment.PAT);
+            options.put("personalAccessToken", Environment.PERSONAL_ACCESS_TOKEN );
         }
         options.put("baseApiUrl",
                 "http://" + Environment.getDhis2Container().getHost() + ":" + Environment.getDhis2Container()
