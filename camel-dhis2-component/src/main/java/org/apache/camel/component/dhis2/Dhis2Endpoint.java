@@ -40,7 +40,6 @@ import org.hisp.dhis.integration.sdk.api.Dhis2Client;
 
 /**
  * Leverages the DHIS2 Java SDK to integrate Apache Camel with the DHIS2 Web API.
- * <p>
  */
 @UriEndpoint(firstVersion = "3.21.0", scheme = "dhis2", title = "DHIS2", syntax = "dhis2:methodName",
              apiSyntax = "apiName/methodName", category = {
@@ -59,13 +58,11 @@ public class Dhis2Endpoint extends AbstractApiEndpoint<Dhis2ApiName, Dhis2Config
         this.configuration = endpointConfiguration;
     }
 
-    public Producer createProducer()
-            throws Exception {
+    public Producer createProducer() throws Exception {
         return new Dhis2Producer(this);
     }
 
-    public Consumer createConsumer(Processor processor)
-            throws Exception {
+    public Consumer createConsumer(Processor processor) throws Exception {
         // make sure inBody is not set for consumers
         if (inBody != null) {
             throw new IllegalArgumentException("Option inBody is not supported for consumer endpoint");

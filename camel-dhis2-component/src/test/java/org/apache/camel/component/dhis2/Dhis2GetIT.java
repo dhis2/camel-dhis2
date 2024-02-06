@@ -45,7 +45,7 @@ public class Dhis2GetIT extends AbstractDhis2TestSupport {
 
     @Test
     public void testCollection() {
-        final Map<String, Object> headers = new HashMap<String, Object>();
+        final Map<String, Object> headers = new HashMap<>();
         headers.put("CamelDhis2.path", "organisationUnits");
         headers.put("CamelDhis2.arrayName", "organisationUnits");
         headers.put("CamelDhis2.paging", true);
@@ -61,8 +61,8 @@ public class Dhis2GetIT extends AbstractDhis2TestSupport {
     }
 
     @Test
-    public void testResource() throws Exception {
-        final Map<String, Object> headers = new HashMap<String, Object>();
+    public void testResource() {
+        final Map<String, Object> headers = new HashMap<>();
         headers.put("CamelDhis2.path", String.format("organisationUnits/%s", Environment.ORG_UNIT_ID_UNDER_TEST));
         headers.put("CamelDhis2.fields", null);
         headers.put("CamelDhis2.filter", null);
@@ -75,7 +75,7 @@ public class Dhis2GetIT extends AbstractDhis2TestSupport {
     }
 
     @Override
-    protected RouteBuilder createRouteBuilder() {
+    protected RouteBuilder createRouteBuilder() throws Exception {
         return new RouteBuilder() {
             public void configure() {
                 // test route for collection

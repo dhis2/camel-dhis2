@@ -16,12 +16,12 @@
  */
 package org.apache.camel.component.dhis2.api;
 
-import org.hisp.dhis.integration.sdk.api.Dhis2Client;
-import org.hisp.dhis.integration.sdk.api.operation.PutOperation;
-
 import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
+
+import org.hisp.dhis.integration.sdk.api.Dhis2Client;
+import org.hisp.dhis.integration.sdk.api.operation.PutOperation;
 
 public class Dhis2Put {
     private final Dhis2Client dhis2Client;

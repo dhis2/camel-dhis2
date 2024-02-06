@@ -19,6 +19,10 @@
  */
 package org.apache.camel.component.dhis2;
 
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.component.dhis2.internal.Dhis2ApiCollection;
 import org.apache.camel.component.dhis2.internal.Dhis2DeleteApiMethod;
@@ -28,10 +32,6 @@ import org.hisp.dhis.integration.sdk.api.RemoteDhis2ClientException;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -43,7 +43,8 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 public class Dhis2DeleteIT extends AbstractDhis2TestSupport {
 
     private static final Logger LOG = LoggerFactory.getLogger(Dhis2DeleteIT.class);
-    private static final String PATH_PREFIX = Dhis2ApiCollection.getCollection().getApiName(Dhis2DeleteApiMethod.class).getName();
+    private static final String PATH_PREFIX
+            = Dhis2ApiCollection.getCollection().getApiName(Dhis2DeleteApiMethod.class).getName();
 
     @Test
     public void testResource() {
@@ -60,8 +61,8 @@ public class Dhis2DeleteIT extends AbstractDhis2TestSupport {
 
         final java.io.InputStream result = requestBodyAndHeaders("direct://RESOURCE", null, headers);
         RemoteDhis2ClientException remoteDhis2ClientException = assertThrows(RemoteDhis2ClientException.class,
-                                                                             () -> Environment.DHIS2_CLIENT.get("organisationUnits/{id}", orgUnitId).transfer()
-                                                                                 .returnAs(OrganisationUnit.class));
+                () -> Environment.DHIS2_CLIENT.get("organisationUnits/{id}", orgUnitId).transfer()
+                        .returnAs(OrganisationUnit.class));
         assertEquals(404, remoteDhis2ClientException.getHttpStatusCode());
 
         assertNotNull(result, "resource result");

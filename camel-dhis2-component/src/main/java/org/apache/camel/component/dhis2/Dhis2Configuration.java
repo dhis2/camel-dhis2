@@ -36,8 +36,9 @@ public class Dhis2Configuration {
     @UriParam(description = "Password of the DHIS2 username", secret = true, label = "security")
     private String password;
 
-    @UriParam(description = "Personal access token to authenticate with DHIS2. This option is mutually exclusive to username and password", secret = true, label = "security")
-    private String pat;
+    @UriParam(description = "Personal access token to authenticate with DHIS2. This option is mutually exclusive to username and password",
+              secret = true, label = "security")
+    private String personalAccessToken;
 
     @UriPath(description = "API operation (e.g., get)")
     @Metadata(required = true)
@@ -47,7 +48,8 @@ public class Dhis2Configuration {
     @Metadata(required = true)
     private String methodName;
 
-    @UriParam(label = "advanced", description = "References a user-defined org.hisp.dhis.integration.sdk.api.Dhis2Client. This option is mutually exclusive to the baseApiUrl, username, password, and pat options")
+    @UriParam(label = "advanced",
+              description = "References a user-defined org.hisp.dhis.integration.sdk.api.Dhis2Client. This option is mutually exclusive to the baseApiUrl, username, password, and personalAccessToken options")
     private Dhis2Client client;
 
     public String getBaseApiUrl() {
@@ -86,12 +88,12 @@ public class Dhis2Configuration {
         return methodName;
     }
 
-    public String getPat() {
-        return pat;
+    public String getPersonalAccessToken() {
+        return personalAccessToken;
     }
 
-    public void setPat(String pat) {
-        this.pat = pat;
+    public void setPersonalAccessToken(String personalAccessToken) {
+        this.personalAccessToken = personalAccessToken;
     }
 
     public void setMethodName(String methodName) {

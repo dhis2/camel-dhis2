@@ -16,14 +16,14 @@
  */
 package org.apache.camel.component.dhis2.api;
 
-import org.hisp.dhis.integration.sdk.api.Dhis2Client;
-import org.hisp.dhis.integration.sdk.api.IterableDhis2Response;
-import org.hisp.dhis.integration.sdk.api.operation.GetOperation;
-
 import java.io.InputStream;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+
+import org.hisp.dhis.integration.sdk.api.Dhis2Client;
+import org.hisp.dhis.integration.sdk.api.IterableDhis2Response;
+import org.hisp.dhis.integration.sdk.api.operation.GetOperation;
 
 public class Dhis2Get {
     private final Dhis2Client dhis2Client;
@@ -92,4 +92,5 @@ public class Dhis2Get {
 
         return iteratorDhis2Response.returnAs(Dhis2Resource.class, arrayName).iterator();
     }
+
 }

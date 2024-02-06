@@ -24,15 +24,18 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class Dhis2ComponentTestCase {
-
     @Test
     public void testGetClientThrowsExceptionGivenDhis2ConfigurationWithDhis2ClientAndBaseApiUrl() {
         Dhis2Configuration dhis2Configuration = new Dhis2Configuration();
         dhis2Configuration.setBaseApiUrl("https://play.dhis2.org/40.2.2/api");
-        dhis2Configuration.setClient(Dhis2ClientBuilder.newClient("https://play.dhis2.org/40.2.2/api", "admin", "district").build());
+        dhis2Configuration
+                .setClient(Dhis2ClientBuilder.newClient("https://play.dhis2.org/40.2.2/api", "admin", "district").build());
 
         Dhis2Component dhis2Component = new Dhis2Component();
-        RuntimeCamelException runtimeCamelException = assertThrows(RuntimeCamelException.class, () -> dhis2Component.getClient(dhis2Configuration));
-        assertEquals("Bad DHIS2 endpoint configuration: client option is mutually exclusive to baseApiUrl, username, password, and pat. Either set `client`, or `baseApiUrl` and `username` and `password`, or `baseApiUrl` and `pat`", runtimeCamelException.getMessage());
+        RuntimeCamelException runtimeCamelException
+                = assertThrows(RuntimeCamelException.class, () -> dhis2Component.getClient(dhis2Configuration));
+        assertEquals(
+                "Bad DHIS2 endpoint configuration: client option is mutually exclusive to baseApiUrl, username, password, and personalAccessToken. Either set `client`, or `baseApiUrl` and `username` and `password`, or `baseApiUrl` and `personalAccessToken`",
+                runtimeCamelException.getMessage());
     }
 }

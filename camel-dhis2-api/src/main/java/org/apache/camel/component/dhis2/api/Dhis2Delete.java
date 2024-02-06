@@ -16,12 +16,12 @@
  */
 package org.apache.camel.component.dhis2.api;
 
-import org.hisp.dhis.integration.sdk.api.Dhis2Client;
-import org.hisp.dhis.integration.sdk.api.operation.DeleteOperation;
-
 import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
+
+import org.hisp.dhis.integration.sdk.api.Dhis2Client;
+import org.hisp.dhis.integration.sdk.api.operation.DeleteOperation;
 
 public class Dhis2Delete {
     private final Dhis2Client dhis2Client;
@@ -35,7 +35,7 @@ public class Dhis2Delete {
         if (queryParams != null) {
             for (Map.Entry<String, Object> queryParam : queryParams.entrySet()) {
                 if (queryParam.getValue() instanceof List) {
-                    for (String queryValue : (List<String>)queryParam.getValue()) {
+                    for (String queryValue : (List<String>) queryParam.getValue()) {
                         deleteOperation.withParameter(queryParam.getKey(), queryValue);
                     }
                 } else {

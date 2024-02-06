@@ -59,8 +59,8 @@ public class Dhis2PostIT extends AbstractDhis2TestSupport {
         headers.put("CamelDhis2.queryParams", new HashMap<>());
 
         final java.io.InputStream result = requestBodyAndHeaders(endpointUri,
-                                                                 new OrganisationUnit().withName("Foo").withShortName("Foo").withOpeningDate(new Date()),
-                                                                 headers);
+                new OrganisationUnit().withName("Foo").withShortName("Foo").withOpeningDate(new Date()),
+                headers);
 
         assertNotNull(result, "resource result");
         LOG.debug("Result: {}", result);
@@ -75,7 +75,7 @@ public class Dhis2PostIT extends AbstractDhis2TestSupport {
                         .to("dhis2://" + PATH_PREFIX + "/resource?inBody=resource");
 
                 from("direct://RESOURCE")
-                    .to("dhis2://" + PATH_PREFIX + "/resource");
+                        .to("dhis2://" + PATH_PREFIX + "/resource");
             }
         };
     }
