@@ -34,11 +34,11 @@ public class Dhis2Component extends AbstractApiComponent<Dhis2ApiName, Dhis2Conf
     private Dhis2Client dhis2Client;
 
     public Dhis2Component() {
-        super(Dhis2Endpoint.class, Dhis2ApiName.class, Dhis2ApiCollection.getCollection());
+        super(Dhis2ApiName.class, Dhis2ApiCollection.getCollection());
     }
 
     public Dhis2Component(CamelContext context) {
-        super(context, Dhis2Endpoint.class, Dhis2ApiName.class, Dhis2ApiCollection.getCollection());
+        super(context, Dhis2ApiName.class, Dhis2ApiCollection.getCollection());
     }
 
     @Override
@@ -76,14 +76,16 @@ public class Dhis2Component extends AbstractApiComponent<Dhis2ApiName, Dhis2Conf
             return this.dhis2Client;
         } else {
             if (endpointConfiguration.getClient() != null) {
-                if (endpointConfiguration.getBaseApiUrl() != null || endpointConfiguration.getPersonalAccessToken() != null || endpointConfiguration.getUsername() != null || endpointConfiguration.getPassword() != null) {
+                if (endpointConfiguration.getBaseApiUrl() != null || endpointConfiguration.getPersonalAccessToken() != null
+                        || endpointConfiguration.getUsername() != null || endpointConfiguration.getPassword() != null) {
                     throw new RuntimeCamelException(
                             "Bad DHIS2 endpoint configuration: client option is mutually exclusive to baseApiUrl, username, password, and personalAccessToken. Either set `client`, or `baseApiUrl` and `username` and `password`, or `baseApiUrl` and `personalAccessToken`");
                 }
 
                 return endpointConfiguration.getClient();
             } else {
-                if (endpointConfiguration.getPersonalAccessToken() != null && (endpointConfiguration.getUsername() != null || endpointConfiguration.getPassword() != null)) {
+                if (endpointConfiguration.getPersonalAccessToken() != null
+                        && (endpointConfiguration.getUsername() != null || endpointConfiguration.getPassword() != null)) {
                     throw new RuntimeCamelException(
                             "Bad DHIS2 authentication configuration: Personal access token authentication and basic authentication are mutually exclusive. Either set `personalAccessToken` or both `username` and `password`");
                 }

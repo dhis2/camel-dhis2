@@ -52,6 +52,7 @@ public class Dhis2GetTestCase {
     @BeforeEach
     public void beforeEach() {
         when(dhis2Client.get(any())).thenReturn(getOperation);
+        when(getOperation.withParameter(any(), any())).thenReturn(getOperation);
     }
 
     @Test
