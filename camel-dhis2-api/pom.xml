@@ -33,7 +33,7 @@
     <packaging>jar</packaging>
 
     <properties>
-        <firstVersion>3.21.0</firstVersion>
+        <firstVersion>4.0.0</firstVersion>
     </properties>
 
     <dependencies>
@@ -45,7 +45,7 @@
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-junit-jupiter</artifactId>
-            <version>4.6.1</version>
+            <version>5.10.0</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -53,19 +53,17 @@
     <build>
         <plugins>
             <plugin>
+                <!-- Required by camel-dhis2 -->
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
                 <executions>
                     <execution>
                         <id>attach-sources</id>
                         <goals>
-                            <goal>jar</goal>
+                            <goal>jar-no-fork</goal>
                         </goals>
                     </execution>
                 </executions>
-                <configuration>
-                    <classifier>sources</classifier>
-                </configuration>
             </plugin>
         </plugins>
     </build>
